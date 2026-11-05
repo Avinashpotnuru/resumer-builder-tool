@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
+
+  --color-primary: #0f172a;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #2563eb;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #10b981;
+  --color-accent-foreground: #ffffff;
+  --color-accent-strong: #059669;
+  --color-accent-soft: #d1fae5;
+  --color-accent-light: #34d399;
+
+  --color-canvas: #f8fafc;
+  --color-surface: #ffffff;
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
+  --color-muted-foreground: #64748b;
+  --color-line: #e2e8f0;
+  --color-border: #e2e8f0;
+  --color-sidebar: #0f172a;
+  --color-danger: #dc2626;
+  --color-danger-foreground: #ffffff;
+  --color-danger-soft: #fef2f2;
+
+  --color-ring: #0f172a;
+
+  --gradient-accent: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+  --gradient-surface: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent-strong);
+  }
+}
+
+/* Thin custom scrollbars — applied app-wide (document, workspace, modal). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 23, 42, 0.28) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.2);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .reveal,
+  .reveal-fade {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-fade {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.reveal-fade {
+  animation: reveal-fade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@page professional-classic {
+  size: A4;
+  margin: 0.5in 0.5in;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+
+  .professional-classic-template {
+    page: professional-classic;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  body > * {
+    display: none !important;
+  }
+
+  #resume-print-root {
+    display: block !important;
+  }
+
+  #resume-print-root article {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    --tw-ring-shadow: 0 0 #0000 !important;
+    --tw-shadow: 0 0 #0000 !important;
+  }
+
+  #resume-print-root h2 {
+    break-after: avoid-page;
+  }
+
+  #resume-print-root article article {
+    break-inside: avoid;
+  }
+}
