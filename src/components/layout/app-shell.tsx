@@ -67,8 +67,8 @@ export function AppShell({ children }: AppShellProps) {
 
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden lg:ml-[272px]">
         <Header onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
-          {children}
+        <main className="flex-1 overflow-y-auto bg-background px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+          <div className="mx-auto w-full max-w-[1440px]">{children}</div>
         </main>
       </div>
     </div>

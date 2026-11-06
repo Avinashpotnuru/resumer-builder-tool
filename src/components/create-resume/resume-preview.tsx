@@ -19,7 +19,7 @@ const subscribeToHydration = () => () => {};
 
 function EmptyPreview() {
   return (
-    <div className="flex min-h-64 items-center justify-center rounded-xl border border-dashed border-line bg-surface/50 px-6 py-12 text-center">
+    <div className="flex min-h-64 items-center justify-center rounded-[26px] border border-dashed border-line bg-accent-soft/40 px-6 py-12 text-center">
       <p className="max-w-xs text-xs leading-5 text-muted">
         Your resume preview will appear here once the editor is ready.
       </p>
@@ -51,7 +51,7 @@ export function ResumePreview() {
         <div className="flex items-baseline gap-3">
           <h3
             id="resume-preview-heading"
-            className="text-sm font-bold tracking-tight text-ink"
+            className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink"
           >
             Live preview
           </h3>
@@ -64,7 +64,7 @@ export function ResumePreview() {
             onClick={() => window.print()}
             disabled={!canExport}
             title="Opens the browser print dialog. Choose Save as PDF."
-            className="h-9 rounded-lg bg-primary px-3 text-[11px] font-medium text-surface transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
+            className="h-9 rounded-full bg-accent px-4 text-[12px] font-medium text-accent-foreground transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
           >
             Download PDF
           </button>
@@ -76,7 +76,7 @@ export function ResumePreview() {
             }}
             disabled={!canExport}
             title="Downloads an editable Word document."
-            className="h-9 rounded-lg border border-line bg-surface px-3 text-[11px] font-medium text-ink transition-colors hover:bg-surface/50 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
+            className="h-9 rounded-full border border-line bg-card px-4 text-[12px] font-medium text-ink transition-colors hover:border-primary/40 hover:bg-accent-soft/50 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
           >
             Download DOCX
           </button>
@@ -87,7 +87,7 @@ export function ResumePreview() {
             <select
               value={template}
               onChange={(event) => setTemplate(event.target.value as ResumeTemplateId)}
-              className="h-8 max-w-[10rem] rounded-lg border border-line bg-surface px-2 text-[11px] font-medium text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+              className="h-8 max-w-[10rem] rounded-[22px] border border-line bg-accent-soft/40 px-2 text-[11px] font-medium text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
             >
               {RESUME_TEMPLATES.map((templateId) => (
                 <option key={templateId} value={templateId}>
@@ -99,9 +99,9 @@ export function ResumePreview() {
         </div>
       </div>
 
-      <div className="relative max-h-[calc(100vh-10rem)] overflow-y-auto rounded-2xl border border-line bg-surface p-3 sm:p-4 shadow-sm">
+      <div className="relative max-h-[calc(100vh-10rem)] overflow-y-auto rounded-[32px] border border-line bg-card p-4 sm:p-6 shadow-sm">
         {workingResume && canExport ? (
-          <div className="mx-auto max-w-[210mm] min-h-[297mm] bg-surface border border-line shadow-[0_24px_60px_-32px_rgba(15,23,42,0.10)]">
+          <div className="mx-auto max-w-[210mm] min-h-[297mm] bg-card border border-line shadow-[0_36px_70px_-46px_rgba(27,33,29,0.6)]">
             <ResumeTemplate
               template={template}
               resume={workingResume}

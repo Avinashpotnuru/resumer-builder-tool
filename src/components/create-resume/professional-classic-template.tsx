@@ -8,6 +8,7 @@ import type {
   ResumeSectionId,
 } from "@/lib/resume/editor-store";
 import { categorizeSkills } from "@/lib/resume/categorize-skills";
+import { isBulletLine, stripBulletMarker } from "@/lib/resume/bullet-text";
 
 const sectionOrder: ResumeSectionId[] = [
   "summary",
@@ -27,14 +28,6 @@ function formatDateRange(startDate: string, endDate: string | null): string {
 
 function isImpactful(text: string): boolean {
   return /\d/.test(text);
-}
-
-function stripBulletMarker(line: string): string {
-  return line.replace(/^[-*•·]\s+/, "").trim();
-}
-
-function isBulletLine(line: string): boolean {
-  return /^[-*•·]\s+/.test(line);
 }
 
 function splitDescriptionLines(description: string): { prose: string[]; bullets: string[] } {

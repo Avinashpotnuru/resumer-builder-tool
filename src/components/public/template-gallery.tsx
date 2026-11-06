@@ -26,7 +26,7 @@ export function TemplateGallery() {
       <div
         role="group"
         aria-label="Filter templates by category"
-        className="flex flex-wrap gap-2"
+        className="flex flex-wrap gap-2.5"
       >
         {RESUME_TEMPLATE_CATEGORIES.map((category) => {
           const active = category === filter;
@@ -39,8 +39,8 @@ export function TemplateGallery() {
               className={[
                 "h-9 rounded-full border px-4 text-[12px] font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
                 active
-                  ? "border-ink bg-ink text-surface"
-                  : "border-line bg-surface text-muted hover:border-ink/30 hover:text-ink",
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-line bg-card text-muted hover:border-primary/40 hover:text-ink",
               ].join(" ")}
             >
               {category}
@@ -49,12 +49,12 @@ export function TemplateGallery() {
         })}
       </div>
 
-      <p className="mt-4 text-[12px] text-muted" role="status">
+      <p className="mt-5 text-[12px] text-muted" role="status">
         Showing {visible.length} {visible.length === 1 ? "template" : "templates"}
         {filter === "All" ? "" : ` in ${filter}`}.
       </p>
 
-      <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {visible.map((template) => (
           <TemplateCard key={template.id} template={template} />
         ))}

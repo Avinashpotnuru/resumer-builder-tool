@@ -30,10 +30,10 @@ export function Sidebar({ open, onNavigate, onClose }: SidebarProps) {
     <aside
       aria-label="Main navigation"
       className={[
-        "fixed inset-y-0 left-0 z-50 flex w-[272px] shrink-0 flex-col overflow-hidden border-r border-line bg-surface px-5 pb-8 pt-6",
+        "fixed inset-y-0 left-0 z-50 flex w-[272px] shrink-0 flex-col overflow-hidden border-r border-line bg-card px-5 pb-8 pt-6",
         "transition-[transform,visibility] duration-300 ease-out",
         "lg:visible lg:translate-x-0 lg:shadow-none",
-        open ? "visible translate-x-0 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.12)]" : "invisible -translate-x-full",
+        open ? "visible translate-x-0 shadow-[0_30px_70px_-30px_rgba(27,33,29,0.4)]" : "invisible -translate-x-full",
       ].join(" ")}
     >
       {/* Logo / brand area */}
@@ -43,15 +43,15 @@ export function Sidebar({ open, onNavigate, onClose }: SidebarProps) {
           onClick={onNavigate}
           className="group flex items-center gap-2.5 rounded-lg px-1 py-1 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-surface shadow-sm">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-[0_10px_24px_-16px_rgba(31,61,51,0.9)]">
             <LogoIcon className="h-5 w-5" />
           </span>
           <span className="flex flex-col leading-tight">
-            <span className="text-[15px] font-semibold tracking-tight text-ink">
+            <span className="font-heading text-[19px] font-semibold tracking-[-0.02em] text-ink">
               HonestCV
             </span>
-            <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
-              Workspace
+            <span className="mt-1 text-[9.5px] font-medium uppercase tracking-[0.2em] text-muted">
+              Career studio
             </span>
           </span>
         </Link>
@@ -68,10 +68,10 @@ export function Sidebar({ open, onNavigate, onClose }: SidebarProps) {
 
       {/* Navigation */}
       <nav aria-label="Primary" className="flex-1">
-        <p className="px-0.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted mb-4">
+        <p className="px-0.5 text-[9.5px] font-semibold uppercase tracking-[0.22em] text-muted mb-4">
           Navigation
         </p>
-        <ul className="space-y-0.5">
+        <ul className="space-y-1">
           {navigation.map((item) => {
             const active = isActivePath(pathname, item.href);
             const Icon = icons[item.icon];
@@ -83,23 +83,23 @@ export function Sidebar({ open, onNavigate, onClose }: SidebarProps) {
                   onClick={onNavigate}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "relative flex h-10 items-center gap-3 rounded-lg px-3 text-sm transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-1 focus-visible:outline-none",
+                    "relative flex h-11 items-center gap-3 rounded-xl px-3 text-[13.5px] transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-1 focus-visible:outline-none",
                     active
-                      ? "bg-primary/10 text-primary font-medium"
-                      : "text-muted/60 hover:bg-surface/50 hover:text-ink",
+                      ? "bg-accent-soft/70 text-primary font-medium"
+                      : "text-muted hover:bg-background hover:text-ink",
                   ].join(" ")}
                 >
                   {active ? (
                     <span
                       aria-hidden="true"
-                      className="absolute left-0 top-1/2 h-[16px] w-[2px] -translate-y-1/2 rounded-full bg-primary"
+                      className="absolute right-3 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-accent"
                     />
                   ) : null}
                   <Icon
                     className={
                       active
                         ? "h-[17px] w-[17px] shrink-0 text-primary"
-                        : "h-[17px] w-[17px] shrink-0 text-muted/40"
+                        : "h-[17px] w-[17px] shrink-0 text-muted/70"
                     }
                   />
                   <span className={active ? "font-medium" : undefined}>
@@ -113,11 +113,20 @@ export function Sidebar({ open, onNavigate, onClose }: SidebarProps) {
       </nav>
 
       {/* Bottom section */}
-      <div className="relative border-t border-line pt-6 mt-auto">
+      <div className="relative mt-auto border-t border-line pt-6">
+        <div className="mb-5 rounded-2xl border border-line bg-background p-3.5">
+          <p className="flex items-center gap-2 text-[9.5px] font-semibold uppercase tracking-[0.18em] text-muted">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+            Local-first
+          </p>
+          <p className="mt-2 text-[11px] leading-4 text-muted">
+            Your resume stays in this browser.
+          </p>
+        </div>
         <Link
           href="/"
           onClick={onNavigate}
-          className="group flex h-10 items-center gap-2.5 rounded-lg px-3 text-sm transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-1 focus-visible:outline-none"
+          className="group flex h-10 items-center gap-2.5 rounded-xl px-3 text-[13px] transition-colors duration-200 hover:bg-background focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-1 focus-visible:outline-none"
         >
           <svg
             viewBox="0 0 24 24"

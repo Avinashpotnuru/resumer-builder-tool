@@ -11,29 +11,37 @@ export const metadata: Metadata = {
 
 export default function TemplatesPage() {
   return (
-    <div className="min-h-dvh">
-      <PublicHeader />
-      <main className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <div className="max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
+    <div className="min-h-dvh overflow-x-clip bg-background">
+      <PublicHeader variant="home" />
+      <main className="mx-auto w-full max-w-7xl px-4 pb-24 pt-14 sm:px-6 sm:pt-20 lg:px-8">
+        <div className="max-w-3xl">
+          <p className="flex items-center gap-3 text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
+            <span aria-hidden="true" className="h-px w-8 bg-accent" />
             Template library
           </p>
-          <h1 className="mt-3 font-serif text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-6 font-heading text-5xl font-semibold leading-[0.96] tracking-[-0.035em] text-ink sm:text-6xl">
             Pick the voice
-            <br />
-            your resume speaks.
+            <span className="block italic text-accent">your resume speaks.</span>
           </h1>
-          <p className="mt-4 max-w-lg text-[14px] leading-6 text-muted">
+          <p className="mt-6 max-w-xl text-[14.5px] leading-7 text-muted">
             Eight layouts, all single-column, all machine-readable. Every one is
             rendered from the same data — switch any time without losing a word.
           </p>
+          <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-[11.5px] text-muted">
+            {["Eight layouts", "ATS-parseable", "PDF & DOCX"].map((item) => (
+              <li key={item} className="flex items-center gap-2">
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-12">
           <TemplateGallery />
         </div>
       </main>
-      <PublicFooter />
+      <PublicFooter variant="home" />
     </div>
   );
 }

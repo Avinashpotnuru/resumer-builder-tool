@@ -34,31 +34,31 @@ import { CertificationsEditor } from "./certifications-editor";
 import { AdditionalSectionsEditor } from "./additional-sections-editor";
 
 const fieldClassName =
-  "h-11 w-full rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none";
+  "h-11 w-full rounded-[22px] border border-line bg-accent-soft/40 px-3.5 text-sm text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none";
 
 const textareaClassName =
-  "h-32 w-full resize-y rounded-lg border border-line bg-surface/40 px-3.5 py-3 text-sm leading-6 text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none";
+  "h-32 w-full resize-y rounded-[22px] border border-line bg-accent-soft/40 px-3.5 py-3 text-sm leading-6 text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none";
 
 const buttonClassName =
-  "rounded-lg px-3 py-2 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none";
+  "rounded-full px-3 py-2 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none";
 
 const secondaryButtonClassName = [
   buttonClassName,
-  "text-muted hover:bg-surface/50 hover:text-ink",
+  "border border-line bg-card text-muted hover:bg-accent-soft/50 hover:text-ink",
 ].join(" ");
 
 const dangerButtonClassName = [
   buttonClassName,
-  "text-danger hover:bg-danger-soft",
+  "border border-line bg-card text-danger hover:bg-danger-soft",
 ].join(" ");
 
 const primaryButtonClassName = [
   buttonClassName,
-  "bg-primary text-surface hover:bg-accent-strong",
+  "bg-accent text-accent-foreground hover:bg-accent-strong",
 ].join(" ");
 
 const orderButtonClassName =
-  "inline-flex h-7 w-7 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface/50 hover:text-ink focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-30";
+  "inline-flex h-7 w-7 items-center justify-center rounded-full text-muted transition-colors focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-30";
 
 function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -140,6 +140,7 @@ export function ResumeEditor({
     isDirty,
     setResumes,
     updateProfessionalSummary,
+    updateCoverLetter,
     updateSkills,
     addExperience,
     updateExperience,
@@ -212,6 +213,7 @@ export function ResumeEditor({
       personalInfo: working.personalInfo,
       certifications: working.certifications,
       additionalSections: working.additionalSections,
+      coverLetter: working.coverLetter,
       provenance: [],
       changes: [],
     };
@@ -273,7 +275,7 @@ export function ResumeEditor({
       <div
         role="group"
         aria-label="Editor view"
-        className="xl:hidden mb-4 grid grid-cols-2 gap-1 rounded-xl border border-line bg-surface/50 p-1"
+        className="xl:hidden mb-4 grid grid-cols-2 gap-1 rounded-[22px] border border-line bg-accent-soft/40 p-1"
       >
         {(
           [
@@ -289,8 +291,8 @@ export function ResumeEditor({
               aria-pressed={active}
               onClick={() => setMobileView(tab.value)}
               className={[
-                "h-11 rounded-lg text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
-                active ? "bg-surface text-ink shadow-sm" : "text-muted",
+                "h-10 rounded-[22px] text-[12px] font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
+                active ? "bg-accent text-accent-foreground shadow-sm" : "text-muted",
               ].join(" ")}
             >
               {tab.label}
@@ -300,13 +302,13 @@ export function ResumeEditor({
       </div>
 
       <div
-        className={`min-w-0 rounded-2xl border border-line bg-surface p-6 sm:p-8 ${
+        className={`min-w-0 rounded-[32px] border border-line bg-card p-6 sm:p-8 ${
           mobileView === "edit" ? "" : "hidden xl:block"
         }`}
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
-            <h3 id="resume-editor-heading" className="text-lg font-bold tracking-tight text-ink">
+            <h3 id="resume-editor-heading" className="font-heading text-xl font-semibold tracking-[-0.01em] text-ink">
               Resume editor
             </h3>
             <span className="mt-1 text-[11px] text-muted">
@@ -322,7 +324,7 @@ export function ResumeEditor({
               onChange={(event) =>
                 setTemplate(event.target.value as ResumeTemplateId)
               }
-              className="h-9 max-w-[11rem] rounded-lg border border-line bg-surface px-2.5 text-[11px] font-medium text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+              className="h-9 max-w-[11rem] rounded-[22px] border border-line bg-accent-soft/40 px-2.5 text-[11px] font-medium text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
             >
               {RESUME_TEMPLATES.map((templateId) => (
                 <option key={templateId} value={templateId}>
@@ -335,8 +337,8 @@ export function ResumeEditor({
               onClick={handleSave}
               disabled={!isDirty}
               className={[
-                "inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-xs font-medium text-surface transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40",
-                !isDirty && "pointer-events-none opacity-50",
+                "inline-flex h-10 items-center justify-center gap-2 rounded-full bg-accent px-5 text-[12px] font-medium text-accent-foreground transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40",
+                !isDirty && "pointer-events-none opacity-40",
               ].join(" ")}
             >
               Save changes
@@ -404,14 +406,29 @@ export function ResumeEditor({
         <ResumeEditorHeader title="Additional sections" />
         <AdditionalSectionsEditor />
 
+        <ResumeEditorHeader title="Cover letter" />
+        <div className="space-y-3">
+          <textarea
+            value={working.coverLetter ?? ""}
+            onChange={(event) => updateCoverLetter(event.target.value)}
+            placeholder="Write a cover letter for this role. Only include facts you can verify."
+            className={textareaClassName}
+          />
+          <p className="text-[11px] leading-5 text-muted">
+            {working.coverLetter?.length ?? 0}{" "}
+            {working.coverLetter?.length === 1 ? "character" : "characters"}
+          </p>
+        </div>
+
         <div className="mt-8 flex items-center justify-end gap-3">
           <button
             type="button"
             onClick={handleCancel}
             disabled={!isDirty}
             className={[
-              "inline-flex h-10 items-center justify-center rounded-lg border border-line px-4 text-xs font-medium text-ink transition-colors hover:bg-surface/50 focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
-              !isDirty && "pointer-events-none opacity-50",
+              buttonClassName,
+              "border border-line bg-card text-ink hover:bg-accent-soft/50 hover:text-ink focus-visible:ring-ring/40 disabled:pointer-events-none disabled:opacity-40",
+              !isDirty && "pointer-events-none opacity-40",
             ].join(" ")}
           >
             Cancel
@@ -438,7 +455,7 @@ function SectionOrderPanel({ order, onMove, onReset }: SectionOrderPanelProps) {
   );
 
   return (
-    <div className="mb-6 rounded-xl border border-line bg-surface p-4">
+    <div className="mb-6 rounded-[22px] border border-line bg-card p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h4 className="text-xs font-semibold text-ink">Section order</h4>
@@ -467,7 +484,7 @@ function SectionOrderPanel({ order, onMove, onReset }: SectionOrderPanelProps) {
           return (
             <li
               key={sectionId}
-              className="flex items-center justify-between gap-2 rounded-lg border border-line bg-surface px-3 py-1.5"
+              className="flex items-center justify-between gap-2 rounded-[22px] border border-line bg-card px-3 py-1.5"
             >
               <span className="text-xs text-ink">{label}</span>
               <div className="flex items-center gap-1">
@@ -504,8 +521,10 @@ type ResumeEditorHeaderProps = {
 
 function ResumeEditorHeader({ title }: ResumeEditorHeaderProps) {
   return (
-    <div className="flex items-baseline justify-between gap-3 mt-6 mb-3">
-      <h3 className="text-sm font-semibold tracking-tight text-ink">{title}</h3>
+    <div className="flex items-baseline justify-between gap-3 mt-8 mb-3">
+      <h3 className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
+        {title}
+      </h3>
     </div>
   );
 }
@@ -758,7 +777,7 @@ function ExperienceEditor({
       {items.map((item, index) => (
         <div
           key={item.id}
-          className="rounded-xl border border-line bg-surface/50 p-4"
+          className="rounded-[22px] border border-line bg-card p-4"
         >
           {editingId === item.id ? (
             <div className="space-y-3">
@@ -770,7 +789,7 @@ function ExperienceEditor({
                     handleUpdate(item.id, "jobTitle", event.target.value)
                   }
                   placeholder="Job title"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
                 <input
                   type="text"
@@ -779,7 +798,7 @@ function ExperienceEditor({
                     handleUpdate(item.id, "companyName", event.target.value)
                   }
                   placeholder="Company"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
               </div>
               <div className="flex gap-2">
@@ -790,7 +809,7 @@ function ExperienceEditor({
                     handleUpdate(item.id, "startDate", event.target.value)
                   }
                   placeholder="Start date"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
                 <input
                   type="text"
@@ -803,7 +822,7 @@ function ExperienceEditor({
                     )
                   }
                   placeholder="End date"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
               </div>
               <div className="flex gap-2">
@@ -815,7 +834,7 @@ function ExperienceEditor({
                   }
                   placeholder="Employment type (Full-time)"
                   aria-label="Employment type"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
                 <input
                   type="text"
@@ -825,7 +844,7 @@ function ExperienceEditor({
                   }
                   placeholder="Location (Chicago, IL)"
                   aria-label="Location"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
               </div>
               <label className="flex w-fit cursor-pointer items-center gap-2 text-[12px] font-medium text-ink">
@@ -863,7 +882,7 @@ function ExperienceEditor({
                         handleAchievementChange(item.id, index, event.target.value)
                       }
                       placeholder="Achievement…"
-                      className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                      className={fieldClassName}
                     />
                     <button
                       type="button"
@@ -908,7 +927,9 @@ function ExperienceEditor({
           ) : (
             <div className="space-y-2">
               <div className="flex items-baseline justify-between gap-2">
-                <p className="text-sm font-medium text-ink">{item.jobTitle}</p>
+                <p className="font-heading text-base font-semibold tracking-[-0.01em] text-ink">
+                  {item.jobTitle}
+                </p>
                 <p className="text-[11px] text-muted">{item.companyName}</p>
               </div>
               <p className="text-[11px] text-muted">
@@ -1098,7 +1119,7 @@ function ProjectsEditor({
       {items.map((item, index) => (
         <div
           key={item.id}
-          className="rounded-xl border border-line bg-surface/50 p-4"
+          className="rounded-[22px] border border-line bg-card p-4"
         >
           {editingId === item.id ? (
             <div className="space-y-3">
@@ -1131,7 +1152,7 @@ function ProjectsEditor({
                         handleTechChange(item.id, index, event.target.value)
                       }
                       placeholder="Technology…"
-                      className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                      className={fieldClassName}
                     />
                     <button
                       type="button"
@@ -1165,7 +1186,7 @@ function ProjectsEditor({
                   }
                   placeholder="Project URL"
                   aria-label="Project URL"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
                 <input
                   type="text"
@@ -1175,7 +1196,7 @@ function ProjectsEditor({
                   }
                   placeholder="GitHub URL"
                   aria-label="GitHub URL"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
               </div>
               <div className="flex gap-2">
@@ -1187,7 +1208,7 @@ function ProjectsEditor({
                   }
                   placeholder="Start date (optional)"
                   aria-label="Project start date"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
                 <input
                   type="text"
@@ -1197,7 +1218,7 @@ function ProjectsEditor({
                   }
                   placeholder="End date (optional)"
                   aria-label="Project end date"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
               </div>
               <div className="space-y-2">
@@ -1218,7 +1239,7 @@ function ProjectsEditor({
                       }
                       placeholder="Achievement…"
                       aria-label="Project achievement"
-                      className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                      className={fieldClassName}
                     />
                     <button
                       type="button"
@@ -1262,7 +1283,9 @@ function ProjectsEditor({
           ) : (
             <div className="space-y-2">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-medium text-ink">{item.name}</p>
+                <p className="font-heading text-base font-semibold tracking-[-0.01em] text-ink">
+                  {item.name}
+                </p>
                 {formatDateRange(item.startDate ?? "", item.endDate ?? null) ? (
                   <p className="text-[11px] text-muted">
                     {formatDateRange(item.startDate ?? "", item.endDate ?? null)}
@@ -1417,7 +1440,7 @@ function EducationEditor({
       {items.map((item) => (
         <div
           key={item.id}
-          className="rounded-xl border border-line bg-surface/50 p-4"
+          className="rounded-[22px] border border-line bg-card p-4"
         >
           {editingId === item.id ? (
             <div className="space-y-3">
@@ -1429,7 +1452,7 @@ function EducationEditor({
                     handleUpdate(item.id, "schoolName", event.target.value)
                   }
                   placeholder="School"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
                 <input
                   type="text"
@@ -1438,7 +1461,7 @@ function EducationEditor({
                     handleUpdate(item.id, "degree", event.target.value)
                   }
                   placeholder="Degree"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
               </div>
               <input
@@ -1458,7 +1481,7 @@ function EducationEditor({
                     handleUpdate(item.id, "startDate", event.target.value)
                   }
                   placeholder="Start date"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
                 <input
                   type="text"
@@ -1467,7 +1490,7 @@ function EducationEditor({
                     handleUpdate(item.id, "endDate", event.target.value || null)
                   }
                   placeholder="End date"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
                 <input
                   type="text"
@@ -1476,7 +1499,7 @@ function EducationEditor({
                     handleUpdate(item.id, "location", event.target.value)
                   }
                   placeholder="Location"
-                  className="flex-1 h-10 rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
+                  className={fieldClassName}
                 />
               </div>
               <input
@@ -1508,7 +1531,9 @@ function EducationEditor({
             </div>
           ) : (
             <div className="space-y-2">
-              <p className="text-sm font-medium text-ink">{item.degree}</p>
+              <p className="font-heading text-base font-semibold tracking-[-0.01em] text-ink">
+                {item.degree}
+              </p>
               <p className="text-[11px] text-muted">
                 {item.fieldOfStudy} · {item.schoolName}
               </p>

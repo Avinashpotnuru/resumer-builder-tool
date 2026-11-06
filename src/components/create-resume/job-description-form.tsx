@@ -28,9 +28,9 @@ export function JobDescriptionSection({
   return (
     <section
       aria-labelledby="description-heading"
-      className="rounded-xl border border-line bg-surface p-5 sm:p-6"
+      className="rounded-[26px] border border-line bg-card p-6 sm:p-8"
     >
-      <h3 id="description-heading" className="text-sm font-semibold tracking-tight text-ink">
+      <h3 id="description-heading" className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
         Job description
       </h3>
       <p className="mt-1 text-xs leading-5 text-muted">
@@ -48,14 +48,14 @@ export function JobDescriptionSection({
         onChange={(event) => handleJobDescriptionChange(event.target.value)}
         placeholder="Paste the job description here…"
         aria-describedby={error ? "job-description-error" : undefined}
-        className="mt-4 w-full resize-y rounded-lg border border-line bg-surface/40 px-3.5 py-3 text-sm leading-6 text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none"
+        className="mt-4 w-full resize-y rounded-[22px] border border-line bg-accent-soft/40 px-3.5 py-3 text-sm leading-6 text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none"
       />
 
       {error ? (
         <p
           id="job-description-error"
           role="alert"
-          className="mt-3 flex items-start gap-2 rounded-lg border border-danger/20 bg-danger-soft px-3 py-2 text-xs leading-5 text-danger"
+          className="mt-3 flex items-start gap-3 rounded-[22px] border border-danger/20 bg-danger-soft px-4 py-3 text-xs leading-5 text-danger"
         >
           <span
             aria-hidden="true"
@@ -66,11 +66,11 @@ export function JobDescriptionSection({
       ) : null}
 
       {extractedSkills.skills.length > 0 ? (
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           {extractedSkills.skills.map((skill) => (
             <span
               key={skill.name}
-              className="rounded-full bg-accent-soft px-2.5 py-1 text-[11px] font-medium text-accent"
+              className="rounded-full border border-accent/20 bg-accent-soft px-2.5 py-1 text-[11px] font-medium text-accent"
             >
               {skill.name}
             </span>
@@ -78,7 +78,7 @@ export function JobDescriptionSection({
         </div>
       ) : null}
 
-      <div className="mt-3 flex items-center justify-between gap-3">
+      <div className="mt-4 flex items-center justify-between gap-3">
         <span className="text-[11px] text-muted">
           {jobDescription.length} {jobDescription.length === 1 ? "character" : "characters"}
         </span>
@@ -86,7 +86,7 @@ export function JobDescriptionSection({
           <button
             type="button"
             onClick={handleClearJobDescription}
-            className="rounded-lg px-3 py-2 text-xs font-medium text-muted transition-colors hover:bg-surface/50 hover:text-ink focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
+            className="rounded-full border border-line bg-card px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:bg-accent-soft/50 hover:text-ink focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
           >
             Clear
           </button>
@@ -117,21 +117,21 @@ export function JobTitleCompanyFields({
   };
 
   const fieldClassName =
-    "h-11 w-full rounded-lg border border-line bg-surface/40 px-3.5 text-sm text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none";
+    "h-11 w-full rounded-[22px] border border-line bg-accent-soft/40 px-3.5 text-sm text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none";
 
   return (
     <section
       aria-labelledby="role-details-heading"
-      className="rounded-xl border border-line bg-surface p-5 sm:p-6"
+      className="rounded-[26px] border border-line bg-card p-6 sm:p-8"
     >
       <div className="flex items-center justify-between gap-3">
         <h3
           id="role-details-heading"
-          className="text-sm font-semibold tracking-tight text-ink"
+          className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink"
         >
           Role details
         </h3>
-        <span className="rounded-full bg-surface/50 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
+        <span className="rounded-full border border-line bg-accent-soft/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
           Optional
         </span>
       </div>

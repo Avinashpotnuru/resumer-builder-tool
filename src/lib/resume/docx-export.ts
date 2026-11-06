@@ -21,6 +21,7 @@ import type {
 } from "./editor-store";
 import { RESUME_SECTION_LABELS } from "./editor-store";
 import { categorizeSkills } from "./categorize-skills";
+import { isBulletLine, stripBulletMarker } from "./bullet-text";
 
 const COLORS = {
   ink: "1B1A17",
@@ -292,14 +293,6 @@ function contactLine(resume: EditorResumeData): string {
 
 function isImpactful(text: string): boolean {
   return /\d/.test(text);
-}
-
-function stripBulletMarker(line: string): string {
-  return line.replace(/^[-*•·]\s+/, "").trim();
-}
-
-function isBulletLine(line: string): boolean {
-  return /^[-*•·]\s+/.test(line);
 }
 
 function bodyParagraph(text: string, format: TemplateFormat): Paragraph {
@@ -922,6 +915,29 @@ function additionalSectionParagraphs(
   return paragraphs.length > 1 ? paragraphs : [];
 }
 
+function coverLetterParagraphs(
+  coverLetter: string,
+  format: TemplateFormat,
+): Paragraph[] {
+  const heading = sectionHeading("Cover Letter", format);
+
+  return [
+    heading,
+    ...coverLetter.split("\n").map((line) => {
+      if (line.trim() === "") {
+        return new Paragraph({
+          spacing: { after: 40, line: 264 },
+        });
+      }
+      return new Paragraph({
+        children: [new TextRun({ text: line, size: format.bodySize, color: format.bodyColor })],
+        spacing: { after: 60, line: 264 },
+        keepLines: true,
+      });
+    }),
+  ];
+}
+
 function headerParagraphs(
   resume: EditorResumeData,
   format: TemplateFormat,
@@ -1057,6 +1073,9 @@ export function buildResumeDocx(
     ...additionalSections.flatMap((section) =>
       additionalSectionParagraphs(section, format),
     ),
+    ...(resume.coverLetter?.trim()
+      ? coverLetterParagraphs(resume.coverLetter, format)
+      : []),
   ];
 
   return new Document({

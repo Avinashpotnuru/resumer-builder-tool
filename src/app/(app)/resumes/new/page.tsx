@@ -53,13 +53,15 @@ export default async function NewResumePage({
   ];
 
   return (
-    <div className="w-full space-y-8">
-      <div className="max-w-2xl space-y-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+    <div className="w-full space-y-10">
+      <div className="max-w-2xl space-y-6">
+        <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">
+          <span aria-hidden="true" className="h-px w-7 bg-accent" />
           New resume
         </p>
-        <h2 className="text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">
-          Choose how to start
+        <h2 className="font-heading text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-5xl">
+          Choose how
+          <span className="block italic text-accent">to start.</span>
         </h2>
         <p className="max-w-xl text-sm leading-6 text-muted sm:text-[15px]">
           Two different jobs, two different workflows. Pick the one that fits
@@ -67,50 +69,50 @@ export default async function NewResumePage({
         </p>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2">
         {options.map((option) => (
           <Link
             key={option.title}
             href={option.href}
-            className="group flex flex-col rounded-xl border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-[0_20px_44px_-28px_rgba(23,26,24,0.5)] focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none"
+            className="group flex flex-col rounded-[26px] border border-line bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_34px_64px_-44px_rgba(27,33,29,0.55)] focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none sm:p-8"
           >
             <span
               className={[
-                "flex h-11 w-11 items-center justify-center rounded-lg",
+                "flex h-12 w-12 items-center justify-center rounded-full border",
                 option.accent
-                  ? "bg-accent-soft text-accent"
-                  : "bg-ink/[0.06] text-ink",
+                  ? "border-accent/25 bg-accent-soft text-accent"
+                  : "border-line bg-background text-primary",
               ].join(" ")}
             >
               {option.icon}
             </span>
 
-            <span className="mt-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
+            <span className="mt-6 text-[9.5px] font-semibold uppercase tracking-[0.22em] text-accent-strong">
               {option.step}
             </span>
-            <span className="mt-1.5 text-xl font-semibold leading-snug tracking-tight text-ink">
+            <span className="mt-2 font-heading text-2xl font-semibold leading-snug tracking-[-0.01em] text-ink">
               {option.title}
             </span>
-            <span className="mt-2 text-[12.5px] leading-6 text-muted">
+            <span className="mt-3 text-[13px] leading-6 text-muted">
               {option.body}
             </span>
 
-            <ul className="mt-4 space-y-1.5">
+            <ul className="mt-5 space-y-2">
               {option.points.map((point) => (
                 <li
                   key={point}
-                  className="flex items-start gap-2 text-[11.5px] leading-5 text-ink/80"
+                  className="flex items-start gap-2.5 text-[12px] leading-5 text-ink"
                 >
                   <span
                     aria-hidden="true"
-                    className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-accent"
+                    className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
                   />
                   {point}
                 </li>
               ))}
             </ul>
 
-            <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-semibold text-accent-strong">
+            <span className="mt-auto inline-flex items-center gap-2 pt-7 text-[13px] font-semibold text-primary">
               {option.action}
               <ArrowRightIcon className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />
             </span>

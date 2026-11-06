@@ -114,14 +114,14 @@ export function AnalysisSummary({
   return (
     <section
       aria-labelledby="analysis-summary-heading"
-      className="rounded-xl border border-line bg-surface p-5 sm:p-6"
+      className="rounded-[26px] border border-line bg-card p-6 sm:p-8"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">
             Step 2 of 3
           </p>
-          <h3 id="analysis-summary-heading" className="mt-1 text-sm font-semibold tracking-tight text-ink">
+          <h3 id="analysis-summary-heading" className="mt-1 font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
             Analysis summary
           </h3>
         </div>
@@ -153,7 +153,7 @@ export function AnalysisSummary({
               return (
                 <li
                   key={skill.name}
-                  className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line bg-surface/40 px-3 py-2"
+                  className="flex flex-wrap items-center justify-between gap-2 rounded-[22px] border border-line bg-accent-soft/40 px-3 py-2"
                 >
                   <span className="min-w-0">
                     <span className="block truncate text-xs font-medium text-ink">
@@ -180,7 +180,7 @@ export function AnalysisSummary({
       )}
 
       {coverage.partiallyMatchingSkills.length > 0 ? (
-        <div className="mt-5 rounded-lg border border-line bg-surface p-4">
+        <div className="mt-5 rounded-[22px] border border-line bg-card p-4">
           <h4 className="text-xs font-semibold tracking-tight text-muted">Partially matching</h4>
           <p className="mt-1 text-[11px] leading-5 text-muted">
             These tokens appear in your resume, but there is no full JD match.
@@ -190,7 +190,7 @@ export function AnalysisSummary({
             {coverage.partiallyMatchingSkills.map((skill) => (
               <li
                 key={skill.name}
-                className="rounded-full border border-line bg-surface/40 px-2.5 py-1 text-[11px] font-medium text-muted"
+                className="rounded-full border border-line bg-accent-soft/40 px-2.5 py-1 text-[11px] font-medium text-muted"
               >
                 {skill.name}
               </li>
@@ -200,7 +200,7 @@ export function AnalysisSummary({
       ) : null}
 
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
-        <div className="rounded-lg border border-line bg-surface p-4 py-3">
+        <div className="rounded-[22px] border border-line bg-card p-4 py-3">
           <h4 className="text-xs font-semibold tracking-tight text-ink">Missing skills to verify</h4>
           {unconfirmed.length > 0 ? (
             <ul className="mt-3 space-y-2">
@@ -209,7 +209,7 @@ export function AnalysisSummary({
                 return (
                   <li
                     key={skill.name}
-                    className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-line bg-surface px-2.5 py-2"
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-[22px] border border-line bg-card px-2.5 py-2"
                   >
                     <span className="min-w-0">
                       <span className="block text-xs font-medium text-ink">{skill.name}</span>
@@ -236,7 +236,7 @@ export function AnalysisSummary({
                         <button
                           type="button"
                           onClick={() => onConfirmationChange(skill.name, null)}
-                          className="rounded-md border border-line bg-surface px-2 py-1 text-[10px] font-medium text-muted"
+                          className="rounded-md border border-line bg-card px-2 py-1 text-[10px] font-medium text-muted"
                         >
                           Clear
                         </button>
@@ -285,7 +285,7 @@ export function AnalysisSummary({
           ) : null}
         </div>
 
-        <div className="rounded-lg border border-line bg-surface p-4 py-3">
+        <div className="rounded-[22px] border border-line bg-card p-4 py-3">
           <h4 className="text-xs font-semibold tracking-tight text-ink">Responsibilities from the job description</h4>
           {analysis.responsibilities.length > 0 ? (
             <ul className="mt-2 list-disc space-y-1.5 pl-4 text-xs leading-5 text-ink">
@@ -327,7 +327,7 @@ export function AnalysisSummary({
           onClick={onGenerate}
           disabled={!readyToGenerate || isGenerating}
           aria-describedby={!readyToGenerate ? "generate-requirements-note" : undefined}
-          className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-xs font-medium text-surface transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
+          className="inline-flex h-10 shrink-0 items-center justify-center rounded-full bg-primary px-4 text-xs font-medium text-surface transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
         >
           {isGenerating ? "Generating…" : "Generate tailored resume"}
         </button>

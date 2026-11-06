@@ -158,10 +158,10 @@ export function ResumeUpload({
     <>
       <section
         aria-labelledby="upload-heading"
-        className="rounded-xl border border-line bg-surface p-5 sm:p-6"
+        className="rounded-[26px] border border-line bg-card p-6 sm:p-8"
       >
         <div className="flex items-baseline justify-between gap-3">
-          <h3 id="upload-heading" className="text-sm font-semibold tracking-tight text-ink">
+          <h3 id="upload-heading" className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
             Resume upload
           </h3>
           <span className="text-[11px] text-muted">{stepLabel}</span>
@@ -173,8 +173,8 @@ export function ResumeUpload({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={[
-            "mt-5 rounded-xl border border-dashed transition-colors duration-150",
-            isDragging ? "border-accent bg-accent-soft/50" : "border-line bg-surface/50",
+            "mt-6 rounded-[26px] border border-dashed transition-colors duration-150",
+            isDragging ? "border-accent bg-accent-soft/50" : "border-line bg-accent-soft/20",
           ].join(" ")}
         >
           <input
@@ -187,31 +187,33 @@ export function ResumeUpload({
           />
 
           {file ? (
-            <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
-              <div className="flex min-w-0 items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
+            <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+              <div className="flex min-w-0 items-center gap-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line bg-background text-accent">
                   <DocumentPlusIcon className="h-5 w-5" />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-medium text-ink">{file.name}</p>
-                  <p className="mt-0.5 text-xs text-muted">
+                  <p className="truncate font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
+                    {file.name}
+                  </p>
+                  <p className="mt-0.5 text-xs leading-5 text-muted">
                     {fileKind} · {formatResumeFileSize(file.size)}
                   </p>
                 </div>
               </div>
 
-              <div className="flex shrink-0 items-center gap-1 pl-[52px] sm:pl-0">
+              <div className="flex shrink-0 items-center gap-1 pl-[56px] sm:pl-0">
                 <button
                   type="button"
                   onClick={openFilePicker}
-                  className="rounded-lg px-3 py-2 text-xs font-medium text-muted transition-colors hover:bg-surface/50 hover:text-ink focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
+                  className="rounded-full px-4 py-2 text-xs font-medium text-muted transition-colors hover:bg-accent-soft/50 hover:text-ink focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
                 >
                   Replace
                 </button>
                 <button
                   type="button"
                   onClick={removeFile}
-                  className="rounded-lg px-3 py-2 text-xs font-medium text-danger transition-colors hover:bg-danger-soft focus-visible:ring-2 focus-visible:ring-danger/30 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
+                  className="rounded-full px-4 py-2 text-xs font-medium text-danger transition-colors hover:bg-danger-soft focus-visible:ring-2 focus-visible:ring-danger/30 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
                 >
                   Remove
                 </button>
@@ -222,15 +224,15 @@ export function ResumeUpload({
               type="button"
               onClick={openFilePicker}
               aria-describedby={error ? "resume-upload-error" : undefined}
-              className="flex w-full flex-col items-center justify-center rounded-xl px-6 py-12 text-center focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-inset focus-visible:outline-none sm:py-14"
+              className="flex w-full flex-col items-center justify-center rounded-[26px] border border-dashed border-line bg-card px-6 py-14 text-center focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-inset focus-visible:outline-none sm:py-18"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-surface text-accent shadow-[0_1px_2px_rgba(15,23,42,0.06)]">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-background text-accent shadow-[0_1px_2px_rgba(15,23,42,0.06)]">
                 <UploadIcon className="h-5 w-5" />
               </span>
-              <span className="mt-4 text-sm font-medium text-ink">
+              <span className="mt-5 font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
                 Drag and drop your resume here
               </span>
-              <span className="mt-1 text-xs leading-5 text-muted">
+              <span className="mt-1.5 text-xs leading-5 text-muted">
                 PDF or DOCX, up to 5 MB ·{" "}
                 <span className="font-medium text-accent">browse files</span>
               </span>
@@ -242,7 +244,7 @@ export function ResumeUpload({
           <p
             id="resume-upload-error"
             role="alert"
-            className="mt-3 flex items-start gap-2 rounded-lg border border-danger/20 bg-danger-soft px-3 py-2 text-xs leading-5 text-danger"
+            className="mt-4 flex items-start gap-3 rounded-[22px] border border-danger/20 bg-danger-soft px-4 py-3 text-xs leading-5 text-danger"
           >
             <span
               aria-hidden="true"

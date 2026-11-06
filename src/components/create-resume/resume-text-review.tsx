@@ -44,20 +44,20 @@ export function ResumeTextReview({ state, editedText, onEditedTextChange }: Resu
   return (
     <section
       aria-labelledby="extracted-text-heading"
-      className="rounded-xl border border-line bg-surface p-5 sm:p-6"
+      className="rounded-[26px] border border-line bg-card p-6 sm:p-8"
     >
       <div className="flex items-baseline justify-between gap-3">
-        <h3 id="extracted-text-heading" className="text-sm font-semibold tracking-tight text-ink">
+        <h3 id="extracted-text-heading" className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
           Extracted text
         </h3>
         {meta ? <span className="shrink-0 text-[11px] text-muted">{meta}</span> : null}
       </div>
 
       {state.status === "extracting" ? (
-        <div role="status" className="mt-4 flex items-center gap-3 rounded-lg bg-canvas/60 px-4 py-6">
+        <div role="status" className="mt-5 flex items-center gap-3 rounded-[22px] bg-accent-soft/60 p-5">
           <span
             aria-hidden="true"
-            className="h-4 w-4 shrink-0 animate-spin rounded-full border-2 border-line border-t-accent"
+            className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-line border-t-accent"
           />
           <p className="text-xs leading-5 text-muted">Reading the text from your document…</p>
         </div>
@@ -66,7 +66,7 @@ export function ResumeTextReview({ state, editedText, onEditedTextChange }: Resu
       {state.status === "error" ? (
         <p
           role="alert"
-          className="mt-3 flex items-start gap-2 rounded-lg border border-danger/20 bg-danger-soft px-3 py-2 text-xs leading-5 text-danger"
+          className="mt-4 flex items-start gap-3 rounded-[22px] border border-danger/20 bg-danger-soft px-4 py-3 text-xs leading-5 text-danger"
         >
           <span aria-hidden="true" className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-danger" />
           {state.error}
@@ -74,8 +74,8 @@ export function ResumeTextReview({ state, editedText, onEditedTextChange }: Resu
       ) : null}
 
       {state.status === "success-pdf" || state.status === "success-docx" ? (
-        <div className="mt-4">
-          <label htmlFor={fieldId} className="block text-xs font-medium text-ink">
+        <div className="mt-5">
+          <label htmlFor={fieldId} className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
             Review and correct your resume text
           </label>
           <textarea
@@ -86,7 +86,7 @@ export function ResumeTextReview({ state, editedText, onEditedTextChange }: Resu
             rows={12}
             placeholder="Corrected resume text will appear here."
             aria-describedby="resume-extracted-text-hint"
-            className="mt-2 max-h-96 w-full resize-y overflow-y-auto rounded-lg border border-line bg-canvas/40 px-3.5 py-3 text-sm leading-6 text-ink transition-colors placeholder:text-muted/60 focus:border-accent focus:bg-surface focus:ring-2 focus:ring-accent/20 focus:outline-none"
+            className="mt-2 max-h-96 w-full resize-y overflow-y-auto rounded-[22px] border border-line bg-canvas/40 px-3.5 py-3 text-sm leading-6 text-ink transition-colors placeholder:text-muted/60 focus:border-accent focus:bg-surface focus:ring-2 focus:ring-accent/20 focus:outline-none"
           />
           <p id="resume-extracted-text-hint" className="mt-2 text-[11px] leading-5 text-muted">
             Correct any mistakes the parser made. Your original extracted text is kept separate

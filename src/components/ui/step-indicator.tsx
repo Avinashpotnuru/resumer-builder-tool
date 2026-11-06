@@ -28,10 +28,10 @@ export function StepIndicator({ steps, current = 1 }: StepIndicatorProps) {
               className={[
                 "relative z-10 flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-semibold tabular-nums",
                 isCurrent
-                  ? "border-primary bg-primary text-surface shadow-[0_0_0_4px_var(--color-accent-soft)]"
+                  ? "border-primary bg-primary text-primary-foreground shadow-[0_0_0_4px_var(--color-accent-soft)]"
                   : isComplete
-                    ? "border-accent-soft bg-accent-soft text-accent"
-                    : "border-line bg-surface text-muted",
+                    ? "border-accent/30 bg-accent-soft text-accent-strong"
+                    : "border-line bg-card text-muted",
               ].join(" ")}
             >
               {isComplete ? <CheckIcon className="h-3.5 w-3.5" /> : stepNumber}

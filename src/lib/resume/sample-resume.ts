@@ -142,4 +142,6 @@ export const SAMPLE_RESUME: EditorResumeData = {
       ],
     },
   ],
+  coverLetter:
+    "Dear Hiring Manager,\n\nI am writing to express my interest in the Senior Frontend Engineer position at your company. With five years of experience building design systems and accessible interfaces, I am excited about the opportunity to contribute to your team.\n\nAt Northwind Retail Group, I own the storefront design system used across 14 surfaces, cutting component duplication by 60%. I also rebuilt product pages in React Server Components, lifting Core Web Vitals pass rate from 68% to 94%.\n\nAt Helio Freight, I shipped dispatcher dashboards handling 4,000+ shipments per day with sub-second table load times, and introduced component-level visual regression testing, reducing UI regressions by 45%.\n\nI am passionate about creating accessible, performant, and user-centered web experiences. I look forward to the opportunity to discuss how my skills and experience can contribute to your team.\n\nSincerely,\nMaya Ellison",
 };

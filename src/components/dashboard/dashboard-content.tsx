@@ -73,17 +73,20 @@ function StatCard({
   icon: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-line bg-surface p-6 shadow-sm">
+    <div className="rounded-[22px] border border-line bg-card p-6">
       <div className="flex items-start justify-between gap-4">
-        <dt className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted">
+        <dt className="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-muted">
           {label}
         </dt>
-        <span aria-hidden="true" className="text-muted/30">
+        <span
+          aria-hidden="true"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-line bg-accent-soft/60 text-accent-strong"
+        >
           {icon}
         </span>
       </div>
       <dd className="mt-5">
-        <p className="text-3xl font-bold tabular-nums tracking-tight text-ink sm:text-4xl">
+        <p className="font-heading text-3xl font-semibold tabular-nums tracking-[-0.02em] text-ink sm:text-4xl">
           {value}
         </p>
         <p className="mt-2 text-xs leading-5 text-muted">{hint}</p>
@@ -99,11 +102,11 @@ function DashboardSkeleton() {
         {[0, 1, 2].map((item) => (
           <div
             key={item}
-            className="h-48 animate-pulse rounded-2xl border border-line bg-surface"
+            className="h-48 animate-pulse rounded-[22px] border border-line bg-card"
           />
         ))}
       </div>
-      <div className="h-64 animate-pulse rounded-2xl border border-line bg-surface" />
+      <div className="h-64 animate-pulse rounded-[22px] border border-line bg-card" />
     </div>
   );
 }
@@ -170,7 +173,7 @@ export function DashboardContent() {
       <section className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="text-base font-bold tracking-tight text-ink">
+            <h2 className="font-heading text-xl font-semibold tracking-[-0.02em] text-ink">
               Recent Resumes
             </h2>
             <p className="mt-1 text-xs leading-5 text-muted">
@@ -179,14 +182,14 @@ export function DashboardContent() {
           </div>
           <Link
             href="/resumes"
-            className="rounded-lg border border-line bg-surface px-3 py-2 text-xs font-medium text-accent transition-colors hover:bg-primary/50 hover:text-primary focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none underline-offset-4 hover:underline"
+            className="rounded-full border border-line bg-card px-4 py-2 text-xs font-medium text-ink transition-colors hover:border-primary/40 hover:bg-accent-soft/50 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
           >
             View all
           </Link>
         </div>
 
         {recent.length > 0 ? (
-          <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
+          <ul className="divide-y divide-line overflow-hidden rounded-[22px] border border-line bg-card">
             {recent.slice(0, 5).map((record) => {
               const original = originalsById.get(record.originalResumeId);
               const originalName =
@@ -196,14 +199,14 @@ export function DashboardContent() {
                 <li key={record.id}>
                   <Link
                     href={`/resumes/${record.id}`}
-                    className="flex flex-col gap-3 px-5 py-4 transition-colors hover:bg-surface/50 focus-visible:bg-surface/50 focus-visible:outline-none sm:flex-row sm:items-center sm:justify-between sm:px-6"
+                    className="flex flex-col gap-3 px-5 py-4 transition-colors hover:bg-accent-soft/30 focus-visible:bg-accent-soft/30 focus-visible:outline-none sm:flex-row sm:items-center sm:justify-between sm:px-6"
                   >
                     <div className="flex min-w-0 items-start gap-3">
-                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface/50 text-muted">
+                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-background text-accent-strong">
                         <FilesIcon className="h-4 w-4" />
                       </span>
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-bold text-ink">
+                        <p className="truncate text-sm font-semibold text-ink">
                           {recordTitle(record)}
                         </p>
                         <p className="mt-0.5 text-[11px] leading-5 text-muted">
@@ -215,7 +218,7 @@ export function DashboardContent() {
                     </div>
 
                     <div className="flex items-center gap-3 pl-12 sm:shrink-0 sm:justify-end sm:pl-0">
-                      <span className="inline-flex items-center rounded-full bg-surface px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted border border-line">
+                      <span className="inline-flex items-center rounded-full border border-line bg-background px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
                         {RESUME_TEMPLATE_LABELS[record.template]}
                       </span>
                       <span className="whitespace-nowrap text-[11px] text-muted">

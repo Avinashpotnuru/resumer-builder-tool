@@ -45,6 +45,7 @@ export type OriginalResumeData = {
   personalInfo?: PersonalInfo;
   certifications?: CertificationItem[];
   additionalSections?: AdditionalSection[];
+  coverLetter?: string;
 };
 
 export type OptimizedResumeData = {
@@ -62,6 +63,7 @@ export type OptimizedResumeData = {
   personalInfo?: PersonalInfo;
   certifications?: CertificationItem[];
   additionalSections?: AdditionalSection[];
+  coverLetter?: string;
 };
 
 export type ResumeComparison = {
@@ -95,6 +97,7 @@ export function createOriginalResume(data: {
   personalInfo?: PersonalInfo;
   certifications?: CertificationItem[];
   additionalSections?: AdditionalSection[];
+  coverLetter?: string;
 }): OriginalResumeData {
   const now = new Date().toISOString();
 
@@ -123,6 +126,7 @@ export function createOriginalResume(data: {
           entries: section.entries.map((entry) => ({ ...entry })),
         }))
       : undefined,
+    coverLetter: data.coverLetter,
   };
 
   return Object.freeze(original);
@@ -146,6 +150,7 @@ export function createOptimizedResume(params: {
   personalInfo?: PersonalInfo;
   certifications?: CertificationItem[];
   additionalSections?: AdditionalSection[];
+  coverLetter?: string;
 }): OptimizedResumeData {
   const optimizedAt = params.optimizedAt ?? new Date().toISOString();
 
@@ -186,6 +191,7 @@ export function createOptimizedResume(params: {
             entries: section.entries.map((entry) => ({ ...entry })),
           }))
         : undefined,
+    coverLetter: params.coverLetter,
   };
 
   return Object.freeze(optimized);

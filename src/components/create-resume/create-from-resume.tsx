@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { ResumeUpload } from "@/components/create-resume/resume-upload";
-import { ArrowRightIcon, CheckIcon } from "@/components/ui/icons";
+import { ArrowRightIcon } from "@/components/ui/icons";
 import {
   createDefaultSectionOrder,
   RESUME_TEMPLATE_LABELS,
@@ -104,22 +104,22 @@ export function CreateFromResume({
   const canCreate = Boolean(resumeText?.trim()) && !isCreating;
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-xl border border-line bg-surface p-5 sm:p-6">
+    <div className="space-y-8">
+      <div className="rounded-[26px] border border-line bg-card p-6 sm:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-md">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">
               What happens next
             </p>
-            <ul className="mt-2 space-y-1.5 text-[12.5px] leading-6 text-ink">
+            <ul className="mt-3 space-y-1.5 text-[12.5px] leading-6 text-ink">
               {[
                 "We extract the text from your file, locally",
                 "Every field is editable — fix anything before saving",
                 "Add, remove, or reorder experience, projects and sections",
                 "Pick any of the eight templates and export PDF or DOCX",
               ].map((point) => (
-                <li key={point} className="flex items-start gap-2">
-                  <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-accent" />
+                <li key={point} className="flex items-start gap-3">
+                  <span aria-hidden="true" className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                   {point}
                 </li>
               ))}
@@ -127,10 +127,10 @@ export function CreateFromResume({
           </div>
 
           <div
-            className="flex max-w-[13rem] items-start gap-2 rounded-lg border border-line bg-surface/60 p-3 text-[11px] leading-5 text-muted"
+            className="flex max-w-[13rem] items-start gap-2 rounded-[22px] border border-line bg-accent-soft/60 p-4 text-[11px] leading-5 text-muted"
             aria-label="No job description is used"
           >
-            <span className="mt-0.5 h-4 w-4 shrink-0 text-muted/60" />
+            <span className="mt-0.5 h-4 w-4 shrink-0 text-accent-strong" />
             <span>
               No job description. No skill matching. No fabricated content.
             </span>
@@ -143,11 +143,11 @@ export function CreateFromResume({
         stepLabel="Step 1 of 2"
       />
 
-      <div className="grid gap-4 rounded-xl border border-line bg-surface p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:p-6">
+      <div className="grid gap-5 rounded-[26px] border border-line bg-card p-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
         <div>
           <label
             htmlFor="starter-template"
-            className="block text-[11px] font-medium text-muted"
+            className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-muted"
           >
             Starting template
           </label>
@@ -174,7 +174,7 @@ export function CreateFromResume({
           type="button"
           onClick={handleCreate}
           disabled={!canCreate}
-          className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-accent px-6 text-sm font-medium text-surface transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
+          className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-surface transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
         >
           {isCreating ? "Creating…" : "Create my resume"}
           <ArrowRightIcon className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />
@@ -184,7 +184,7 @@ export function CreateFromResume({
       {error ? (
         <p
           role="alert"
-          className="rounded-lg border border-danger/20 bg-danger-soft px-4 py-2.5 text-xs leading-5 text-danger"
+          className="rounded-[22px] border border-danger/20 bg-danger-soft px-4 py-3 text-xs leading-5 text-danger"
         >
           {error}
         </p>
