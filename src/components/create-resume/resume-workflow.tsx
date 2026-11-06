@@ -207,24 +207,24 @@ export function ResumeWorkflow({
   }, [companyName, confirmations, jobDescription, resumeText, router, targetJobTitle, initialTemplate]);
 
   return (
-    <div className="space-y-8">
-      <div className="rounded-xl border border-line bg-surface px-5 py-6 sm:px-8">
+    <div className="space-y-10">
+      <div className="rounded-[26px] border border-line bg-card px-5 py-6 sm:px-8">
         <StepIndicator steps={steps} current={analysisVisible ? 2 : 1} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-start">
-        <div className="space-y-6">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-start">
+        <div className="space-y-8">
           <ResumeUpload onExtractedTextChange={handleExtractedTextChange} />
           <JobDescriptionSection onJobDescriptionChange={handleJobDescriptionChange} />
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           <JobTitleCompanyFields
             onJobTitleChange={handleJobTitleChange}
             onCompanyNameChange={handleCompanyNameChange}
           />
 
-          <div className="rounded-xl border border-line bg-surface p-5 sm:p-6">
+          <div className="rounded-[26px] border border-line bg-card p-5 sm:p-6">
             <p className="text-xs leading-5 text-muted">
               Continue reveals the analysis summary for this resume and job
               description.
@@ -235,7 +235,7 @@ export function ResumeWorkflow({
               onClick={handleContinue}
               aria-controls="analysis-summary"
               aria-expanded={analysisVisible}
-              className="group mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-accent px-5 text-sm font-medium text-surface transition-colors duration-150 hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
+              className="group mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-medium text-surface transition-colors duration-150 hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
             >
               {analysisVisible ? "View analysis" : "Continue"}
               <ArrowRightIcon className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />
@@ -244,7 +244,7 @@ export function ResumeWorkflow({
             {continueError ? (
               <p
                 role="alert"
-                className="mt-3 rounded-lg border border-danger/20 bg-danger-soft px-3 py-2 text-xs leading-5 text-danger"
+                className="mt-4 rounded-[22px] border border-danger/20 bg-danger-soft px-4 py-3 text-xs leading-5 text-danger"
               >
                 {continueError}
               </p>

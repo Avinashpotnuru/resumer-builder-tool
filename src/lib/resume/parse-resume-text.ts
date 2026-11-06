@@ -9,6 +9,7 @@ import { createEmptyPersonalInfo } from "./editor-store";
 import type { OriginalResumeData } from "./source-tracking";
 import { SKILL_DICTIONARY, normalizeSkill } from "../skills/skill-dictionary";
 import type { Skill } from "../skills/skill-dictionary";
+import { isBulletLine, stripBulletMarker } from "./bullet-text";
 
 type SectionId =
   | "summary"
@@ -259,10 +260,12 @@ function stripBullets(lines: string[]): {
 
   for (const line of lines) {
     const trimmed = line.trim();
-    const bulletMatch = trimmed.match(/^[-*•·]\s+(.*)$/);
-    if (bulletMatch?.[1]) {
-      achievements.push(bulletMatch[1].trim());
-      continue;
+    if (isBulletLine(trimmed)) {
+      const bulletText = stripBulletMarker(trimmed);
+      if (bulletText) {
+        achievements.push(bulletText);
+        continue;
+      }
     }
 
     body.push(trimmed);
@@ -362,7 +365,7 @@ function splitExperienceBlocks(lines: string[]): string[][] {
   };
 
   for (const line of lines) {
-    const isBullet = /^[-*•·]\s+/.test(line);
+    const isBullet = isBulletLine(line);
     const hasDateToken = Boolean(parseDateRange(line));
     const isHeading = !isBullet && looksLikeRoleHeading(line);
 
@@ -389,7 +392,7 @@ function splitExperienceBlocks(lines: string[]): string[][] {
 function looksLikeCompanyLine(line: string): boolean {
   const trimmed = line.trim();
   if (!trimmed || trimmed.length > 90) return false;
-  if (/^[-*•·]\s+/.test(trimmed)) return false;
+  if (isBulletLine(trimmed)) return false;
   if (/[.!?]$/.test(trimmed)) return false;
   if (ACTION_START_PATTERN.test(trimmed)) return false;
   return (
@@ -471,7 +474,7 @@ function splitProjectBlocks(lines: string[]): string[][] {
   const isHeadingCandidate = (line: string): boolean => {
     const trimmed = line.trim();
     if (!trimmed || trimmed.length > 90) return false;
-    if (/^[-*•·]\s+/.test(trimmed)) return false;
+    if (isBulletLine(trimmed)) return false;
     if (/^technologies?\s*:/i.test(trimmed)) return false;
     if (/[.!?]$/.test(trimmed)) return false;
     if (ACTION_START_PATTERN.test(trimmed)) return false;
@@ -482,13 +485,13 @@ function splitProjectBlocks(lines: string[]): string[][] {
   };
 
   const isProjectContent = (line: string): boolean =>
-    /^[-*•·]\s+/.test(line) ||
+    isBulletLine(line) ||
     /^technologies?\s*:/i.test(line) ||
     ACTION_START_PATTERN.test(line) ||
     /[.!?]$/.test(line);
 
   const isStrongBoundary = (line: string): boolean =>
-    /^[-*•·]\s+/.test(line) || /^technologies?\s*:/i.test(line);
+    isBulletLine(line) || /^technologies?\s*:/i.test(line);
 
   const confirmsNewProject = (index: number): boolean => {
     const next = lines[index + 1]?.trim();
@@ -528,7 +531,7 @@ function splitProjectBlocks(lines: string[]): string[][] {
 
 function parseProjectParagraph(lines: string[], index: number): ProjectItem {
   const firstLine = lines[0]?.trim() ?? "Untitled project";
-  const firstWithoutBullet = firstLine.replace(/^[-*•·]\s*/, "").trim();
+  const firstWithoutBullet = stripBulletMarker(firstLine);
   const linkMatch = firstWithoutBullet.match(/https?:\/\/\S+|\b\S+\.(com|io|dev|net|org)\b/i);
   const link = linkMatch?.[0];
 

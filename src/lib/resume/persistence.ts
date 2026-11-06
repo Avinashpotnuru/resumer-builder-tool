@@ -368,6 +368,7 @@ export function cloneEditorResume(resume: EditorResumeData): EditorResumeData {
     personalInfo: clonePersonalInfo(resume.personalInfo),
     certifications: cloneCertifications(resume.certifications),
     additionalSections: cloneAdditionalSections(resume.additionalSections),
+    coverLetter: resume.coverLetter,
   };
 }
 
@@ -384,6 +385,7 @@ function cloneOriginalResume(resume: OriginalResumeData): OriginalResumeData {
     personalInfo: clonePersonalInfo(resume.personalInfo),
     certifications: cloneCertifications(resume.certifications),
     additionalSections: cloneAdditionalSections(resume.additionalSections),
+    coverLetter: resume.coverLetter,
   };
 }
 
@@ -599,5 +601,6 @@ export function toOptimizedResumeData(
     personalInfo: clonePersonalInfo(resume.personalInfo),
     certifications: cloneCertifications(resume.certifications),
     additionalSections: cloneAdditionalSections(resume.additionalSections),
+    coverLetter: resume.coverLetter,
   };
 }

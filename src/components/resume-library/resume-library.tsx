@@ -46,7 +46,7 @@ function tailoredTitle(record: TailoredResumeRecord): string {
 
 function TemplateBadge({ template }: { template: ResumeTemplateId }) {
   return (
-    <span className="rounded-full bg-ink/[0.05] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
+    <span className="rounded-full border border-line bg-background px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
       {RESUME_TEMPLATE_LABELS[template]}
     </span>
   );
@@ -62,10 +62,10 @@ function SavedResumeCard({
   onDelete: (id: string) => void;
 }) {
   return (
-    <li className="rounded-xl border border-line bg-surface p-5">
+    <li className="rounded-[22px] border border-line bg-card p-5 transition-colors hover:border-primary/25">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 space-y-1.5">
-          <h3 className="truncate text-sm font-semibold tracking-tight text-ink">
+          <h3 className="truncate font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
             {tailoredTitle(record)}
           </h3>
           <p className="text-xs leading-5 text-muted">
@@ -94,14 +94,14 @@ function SavedResumeCard({
       <div className="mt-5 flex flex-wrap items-center gap-2">
         <Link
           href={`/resumes/${record.id}`}
-          className="inline-flex h-9 items-center justify-center rounded-lg bg-accent px-4 text-xs font-medium text-white transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
+          className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-xs font-medium text-primary-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
         >
           Open resume
         </Link>
         <button
           type="button"
           onClick={() => onDelete(record.id)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-xs font-medium text-danger transition-colors hover:bg-danger-soft focus-visible:ring-2 focus-visible:ring-danger/30 focus-visible:outline-none"
+          className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-medium text-danger transition-colors hover:bg-danger-soft focus-visible:ring-2 focus-visible:ring-danger/30 focus-visible:outline-none"
         >
           <TrashIcon className="h-3.5 w-3.5" />
           Delete
@@ -138,7 +138,7 @@ export function ResumeLibrary() {
     return (
       <div
         aria-hidden="true"
-        className="h-40 rounded-xl border border-line bg-surface"
+        className="h-40 rounded-[22px] border border-line bg-card"
       />
     );
   }
@@ -166,7 +166,7 @@ export function ResumeLibrary() {
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h2
               id="tailored-resumes-heading"
-              className="text-sm font-semibold tracking-tight text-ink"
+              className="font-heading text-xl font-semibold tracking-[-0.01em] text-ink"
             >
               Tailored versions
             </h2>
@@ -196,13 +196,13 @@ export function ResumeLibrary() {
       {library.originals.length > 0 ? (
         <section
           aria-labelledby="original-resumes-heading"
-          className="rounded-xl border border-line bg-surface p-5 sm:p-6"
+          className="rounded-[22px] border border-line bg-card p-5 sm:p-6"
         >
           <div className="flex items-center gap-2">
             <FilesIcon className="h-4 w-4 text-accent" />
             <h2
               id="original-resumes-heading"
-              className="text-sm font-semibold tracking-tight text-ink"
+              className="font-heading text-xl font-semibold tracking-[-0.01em] text-ink"
             >
               Original resumes
             </h2>
@@ -212,7 +212,7 @@ export function ResumeLibrary() {
             tailored versions.
           </p>
 
-          <ul className="mt-4 divide-y divide-line rounded-lg border border-line">
+          <ul className="mt-4 divide-y divide-line overflow-hidden rounded-xl border border-line">
             {library.originals.map((original) => (
               <li
                 key={original.id}

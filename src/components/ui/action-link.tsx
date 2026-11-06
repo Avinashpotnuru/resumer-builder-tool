@@ -9,11 +9,12 @@ type ActionLinkProps = {
 };
 
 const baseClassName =
-  "inline-flex h-11 items-center justify-center gap-2 rounded-lg text-sm font-medium transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none";
+  "inline-flex h-11 items-center justify-center gap-2 rounded-full text-[13px] font-medium transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none";
 
 const variantClassNames = {
-  primary: "group bg-primary px-5 text-surface hover:bg-accent-strong",
-  quiet: "px-4 text-muted hover:bg-surface/50 hover:text-ink",
+  primary:
+    "group bg-primary px-5 text-primary-foreground shadow-[0_14px_30px_-20px_rgba(31,61,51,0.9)] hover:bg-accent",
+  quiet: "px-4 text-muted hover:bg-accent-soft/60 hover:text-ink",
 } as const;
 
 export function ActionLink({ href, children, variant = "primary" }: ActionLinkProps) {

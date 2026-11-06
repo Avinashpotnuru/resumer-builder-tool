@@ -15,26 +15,37 @@ export default async function CreateFromResumePage({
   const template = normalizeTemplateId(Array.isArray(raw) ? raw[0] : raw);
 
   return (
-    <div className="w-full space-y-8">
-      <div className="max-w-2xl space-y-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+    <div className="w-full space-y-10">
+      <div className="max-w-2xl space-y-5">
+        <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">
+          <span aria-hidden="true" className="h-px w-7 bg-accent" />
           Create a new resume
         </p>
-        <h2 className="text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">
-          Build from your existing resume
+        <h2 className="font-heading text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-5xl">
+          Build from your
+          <span className="block italic text-accent">existing resume.</span>
         </h2>
         <p className="max-w-xl text-sm leading-6 text-muted sm:text-[15px]">
           Upload a PDF or DOCX and we pre-fill everything we can find —
           personal details, summary, skills, experience, projects, and
           education. Then edit anything, choose a template, and export.
         </p>
-        <p className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-[11px] text-muted">
-          <span>1. Upload resume</span>
-          <span>2. Review pre-filled fields</span>
-          <span>3. Edit, add, remove, reorder</span>
-          <span>4. Export PDF or DOCX</span>
-        </p>
-        <p className="text-[11px] font-medium text-muted">
+        <ol className="flex flex-wrap gap-x-5 gap-y-2 pt-1 text-[11px] text-muted">
+          {[
+            "Upload resume",
+            "Review pre-filled fields",
+            "Edit, add, remove, reorder",
+            "Export PDF or DOCX",
+          ].map((step, index) => (
+            <li key={step} className="flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full border border-line bg-card text-[9px] font-semibold tabular-nums text-accent-strong">
+                {index + 1}
+              </span>
+              {step}
+            </li>
+          ))}
+        </ol>
+        <p className="text-[11px] font-medium leading-5 text-muted">
           No job description is involved. Nothing is compared against a role,
           and nothing is written that is not in your file.
         </p>
@@ -42,9 +53,12 @@ export default async function CreateFromResumePage({
 
       <CreateFromResume initialTemplate={template} />
 
-      <p className="text-[11px] text-muted">
+      <p className="text-[11.5px] text-muted">
         Have a specific role in mind?{" "}
-        <Link href="/resumes/tailor" className="font-medium text-ink hover:underline">
+        <Link
+          href="/resumes/tailor"
+          className="font-medium text-ink underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong"
+        >
           Tailor a resume for a job
         </Link>{" "}
         instead.

@@ -156,7 +156,7 @@ export function WelcomeModal({
     <div className="fixed inset-0 z-50" role="presentation">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-ink/55 backdrop-blur-md"
+        className="pointer-events-none absolute inset-0 bg-ink/60 backdrop-blur-xl"
       />
 
       <div
@@ -171,13 +171,13 @@ export function WelcomeModal({
             aria-labelledby="welcome-title"
             aria-describedby="welcome-description"
             onClick={(event) => event.stopPropagation()}
-            className="relative w-full rounded-2xl border border-line bg-surface shadow-[0_32px_80px_-32px_rgba(15,23,42,0.6)] sm:w-[80vw]"
+            className="relative w-full rounded-[32px] border border-line bg-card shadow-[0_40px_100px_-40px_rgba(27,33,29,0.65)] sm:w-[84vw]"
           >
             <button
               type="button"
               onClick={onDismiss}
               aria-label="Close"
-              className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface/50 hover:text-ink focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
+              className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-muted transition-colors hover:bg-accent-soft/50 hover:text-ink focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
             >
               <CloseIcon className="h-5 w-5" />
             </button>
@@ -188,7 +188,7 @@ export function WelcomeModal({
               </p>
               <h1
                 id="welcome-title"
-                className="mt-2 font-serif text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl"
+                className="mt-2 font-heading text-3xl font-semibold leading-[1.05] tracking-[-0.02em] text-ink sm:text-4xl"
               >
                 Welcome to Your Resume Builder
               </h1>
@@ -200,20 +200,20 @@ export function WelcomeModal({
                 {steps.map((step) => (
                   <li
                     key={step.number}
-                    className="rounded-xl border border-line bg-surface p-4"
+                    className="rounded-[22px] border border-line bg-card p-4"
                   >
                     <div className="flex items-center gap-2.5">
                       <span
                         aria-hidden="true"
-                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-background text-accent"
                       >
                         {step.icon}
                       </span>
                       <div className="min-w-0">
-                        <p className="font-mono text-[9px] font-medium uppercase tracking-[0.18em] text-muted">
+                        <p className="text-[9px] font-medium uppercase tracking-[0.18em] text-muted">
                           {step.number}
                         </p>
-                        <h2 className="text-[13px] font-semibold leading-snug text-ink">
+                        <h2 className="font-heading text-base font-semibold leading-snug tracking-[-0.01em] text-ink">
                           {step.title}
                         </h2>
                       </div>
@@ -233,16 +233,16 @@ export function WelcomeModal({
                 ))}
               </ol>
 
-              <div className="mt-4 rounded-xl border border-accent/25 bg-accent-soft p-4 sm:p-5">
+              <div className="mt-4 rounded-[22px] border border-line bg-accent-soft/60 p-5 sm:p-6">
                 <div className="flex items-start gap-3">
                   <span
                     aria-hidden="true"
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-surface"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground"
                   >
                     <ShieldIcon className="h-5 w-5" />
                   </span>
                   <div className="min-w-0">
-                    <h2 className="text-[13px] font-semibold tracking-tight text-accent-strong">
+                    <h2 className="font-heading text-base font-semibold tracking-[-0.01em] text-accent-strong">
                       Your Privacy Matters
                     </h2>
                     <p className="mt-1 text-[12px] leading-5 text-ink/85">
@@ -268,7 +268,7 @@ export function WelcomeModal({
                   type="button"
                   ref={getStartedRef}
                   onClick={onDismiss}
-                  className="inline-flex h-12 shrink-0 items-center justify-center rounded-lg bg-ink px-8 text-sm font-semibold text-surface transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
+                  className="inline-flex h-12 shrink-0 items-center justify-center rounded-full bg-accent px-10 text-[13px] font-semibold text-accent-foreground transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
                 >
                   Get Started
                 </button>

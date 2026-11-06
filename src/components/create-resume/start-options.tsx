@@ -79,14 +79,16 @@ export function BlankResumeOption({
   };
 
   return (
-    <div className="flex flex-col items-start gap-3 rounded-xl border border-dashed border-line bg-surface/30 p-5 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex items-start gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface/50 text-ink/70">
+    <div className="flex flex-col items-start gap-4 rounded-[26px] border border-dashed border-line bg-card/60 p-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-start gap-4">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-background text-primary">
           <DocumentPlusIcon className="h-4.5 w-4.5" />
         </span>
         <div>
-          <p className="text-sm font-medium text-ink">No resume file yet?</p>
-          <p className="mt-0.5 text-[11.5px] leading-5 text-muted">
+          <p className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
+            No resume file yet?
+          </p>
+          <p className="mt-1 text-[12px] leading-5 text-muted">
             Skip the upload and fill in the guided editor from scratch.
           </p>
         </div>
@@ -95,7 +97,7 @@ export function BlankResumeOption({
         type="button"
         onClick={startBlank}
         disabled={creating}
-        className="group inline-flex h-10 shrink-0 items-center gap-2 rounded-lg border border-line bg-surface px-4 text-xs font-medium text-ink transition-colors hover:bg-surface/50 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none disabled:cursor-wait disabled:opacity-60"
+        className="group inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-line bg-card px-5 text-xs font-medium text-ink transition-colors hover:border-primary/40 hover:bg-accent-soft/50 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none disabled:cursor-wait disabled:opacity-60"
       >
         {creating ? "Opening editor…" : "Start blank"}
         <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />

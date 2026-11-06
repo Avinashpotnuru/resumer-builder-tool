@@ -5,6 +5,7 @@ import {
   normalizeSkill,
 } from "../skills/skill-dictionary";
 import type { Skill } from "../skills/skill-dictionary";
+import { stripBulletMarker } from "./bullet-text";
 
 export type JdRequirementKind = "required" | "preferred";
 
@@ -106,11 +107,7 @@ export function analyzeJobDescription(jdText: string): JdRequirementAnalysis {
     if (markerSection(line)) continue;
 
     if (section === "responsibilities") {
-      responsibilities.push(
-        line
-          .replace(/^[-*•·]\s*/, "")
-          .trim(),
-      );
+      responsibilities.push(stripBulletMarker(line));
     }
 
     const kind: JdRequirementKind = section === "required" ? "required" : "preferred";

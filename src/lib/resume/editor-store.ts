@@ -164,6 +164,7 @@ export type EditorResumeData = {
   personalInfo?: PersonalInfo;
   certifications?: CertificationItem[];
   additionalSections?: AdditionalSection[];
+  coverLetter?: string;
 };
 
 export type ResumeEditorState = {
@@ -180,6 +181,7 @@ export type ResumeEditorState = {
   ) => void;
   updateJobTitle: (value: string | null) => void;
   updateProfessionalSummary: (value: string | null) => void;
+  updateCoverLetter: (value: string) => void;
   updatePersonalInfo: (updates: Partial<PersonalInfo>) => void;
   updateSkills: (skills: string[]) => void;
   addExperience: (item: ExperienceItem) => void;
@@ -248,6 +250,7 @@ function cloneEditorResume(resume: EditorResumeData): EditorResumeData {
           entries: section.entries.map((entry) => ({ ...entry })),
         }))
       : undefined,
+    coverLetter: resume.coverLetter,
   };
 }
 
@@ -330,6 +333,7 @@ export const useResumeEditorStore = create<ResumeEditorState>((set) => ({
               entries: section.entries.map((entry) => ({ ...entry })),
             }))
           : undefined,
+        coverLetter: optimized.coverLetter,
       };
 
       return {
@@ -359,6 +363,18 @@ export const useResumeEditorStore = create<ResumeEditorState>((set) => ({
         workingResume: {
           ...state.workingResume,
           professionalSummary: value,
+        },
+        isDirty: true,
+      };
+    }),
+
+  updateCoverLetter: (value) =>
+    set((state) => {
+      if (!state.workingResume) return state;
+      return {
+        workingResume: {
+          ...state.workingResume,
+          coverLetter: value,
         },
         isDirty: true,
       };

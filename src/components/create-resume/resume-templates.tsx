@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode } from "react";
+﻿import { Fragment, type ReactNode } from "react";
 
 import type {
   EditorResumeData,
@@ -10,6 +10,7 @@ import type {
 } from "@/lib/resume/editor-store";
 import { createDefaultSectionOrder } from "@/lib/resume/editor-store";
 import { categorizeSkills } from "@/lib/resume/categorize-skills";
+import { isBulletLine, stripBulletMarker } from "@/lib/resume/bullet-text";
 
 type TemplateSpec = {
   id: ResumeTemplateId;
@@ -33,82 +34,82 @@ type TemplateSpec = {
 };
 
 const baseArticle =
-  "mx-auto w-full min-w-0 bg-surface text-ink ring-1 ring-ink/10";
+  "mx-auto w-full min-w-0 bg-white text-black ring-1 ring-black/10";
 
 const specs: Record<ResumeTemplateId, TemplateSpec> = {
   "professional-classic": {
     id: "professional-classic",
     article: `professional-classic-template ${baseArticle} px-6 py-8 sm:px-10 sm:py-10`,
-    header: "border-b border-ink/20 pb-5",
+    header: "border-b border-black/20 pb-5",
     headerAlign: "center",
-    name: "text-[26px] font-bold leading-[1.1] tracking-tight text-ink",
-    role: "mt-1 text-[12px] font-medium text-ink/80",
-    contact: "mt-2 text-[10.5px] leading-[1.5] text-ink/80",
+    name: "text-[26px] font-bold leading-[1.1] tracking-tight text-black",
+    role: "mt-1 text-[12px] font-medium text-black/80",
+    contact: "mt-2 text-[10.5px] leading-[1.5] text-black/80",
     contactSeparator: " · ",
     sectionGap: "space-y-5",
-    heading: "text-[13px] font-bold leading-tight text-ink",
+    heading: "text-[13px] font-bold leading-tight text-black",
     headingAccent: "none",
-    body: "text-[11px] leading-[1.55] text-ink",
-    meta: "text-[10.5px] leading-[1.45] text-ink/80",
-    entryTitle: "text-[11.5px] font-bold leading-[1.4] text-ink",
-    entrySubtitle: "text-[10.5px] italic leading-[1.45] text-ink/90",
+    body: "text-[11px] leading-[1.55] text-black",
+    meta: "text-[10.5px] leading-[1.45] text-black/80",
+    entryTitle: "text-[11.5px] font-bold leading-[1.4] text-black",
+    entrySubtitle: "text-[10.5px] italic leading-[1.45] text-black/90",
     bullets: "dots",
     skillsLayout: "rows",
   },
   "modern-ats": {
     id: "modern-ats",
     article: `${baseArticle} px-6 py-8 sm:px-10 sm:py-11`,
-    header: "border-b border-ink/15 pb-5",
+    header: "border-b border-black/15 pb-5",
     headerAlign: "left",
-    name: "text-[27px] font-semibold leading-[1.05] tracking-tight text-primary",
-    role: "mt-1 text-[12px] font-medium text-accent",
-    contact: "mt-2.5 text-[10.5px] leading-[1.55] text-ink/70",
+    name: "text-[27px] font-semibold leading-[1.05] tracking-tight text-[#1f3a2f]",
+    role: "mt-1 text-[12px] font-medium text-[#2f6b57]",
+    contact: "mt-2.5 text-[10.5px] leading-[1.55] text-black/70",
     contactSeparator: "  ·  ",
     sectionGap: "space-y-5",
-    heading: "text-[10px] font-semibold uppercase tracking-[0.2em] text-accent",
+    heading: "text-[10px] font-semibold uppercase tracking-[0.2em] text-[#2f6b57]",
     headingAccent: "bar",
-    body: "text-[11px] leading-[1.58] text-ink/85",
-    meta: "text-[10.5px] leading-[1.45] text-ink/65",
-    entryTitle: "text-[12px] font-semibold leading-[1.4] text-ink",
-    entrySubtitle: "text-[11px] font-medium leading-[1.45] text-accent",
+    body: "text-[11px] leading-[1.58] text-black/85",
+    meta: "text-[10.5px] leading-[1.45] text-black/65",
+    entryTitle: "text-[12px] font-semibold leading-[1.4] text-black",
+    entrySubtitle: "text-[11px] font-medium leading-[1.45] text-[#2f6b57]",
     bullets: "dots",
     skillsLayout: "columns",
   },
   "compact-ats": {
     id: "compact-ats",
     article: `${baseArticle} px-5 py-7 sm:px-8 sm:py-8`,
-    header: "border-b border-ink/25 pb-3.5",
+    header: "border-b border-black/25 pb-3.5",
     headerAlign: "left",
-    name: "text-[22px] font-bold leading-[1.05] tracking-tight text-ink",
-    role: "mt-0.5 text-[11px] font-medium text-ink/75",
-    contact: "mt-1 text-[9.5px] leading-[1.45] text-ink/70",
+    name: "text-[22px] font-bold leading-[1.05] tracking-tight text-black",
+    role: "mt-0.5 text-[11px] font-medium text-black/75",
+    contact: "mt-1 text-[9.5px] leading-[1.45] text-black/70",
     contactSeparator: " | ",
     sectionGap: "space-y-3",
-    heading: "border-b border-ink/20 pb-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-ink",
+    heading: "border-b border-black/20 pb-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-black",
     headingAccent: "none",
-    body: "text-[10px] leading-[1.45] text-ink/85",
-    meta: "text-[9.5px] leading-[1.4] text-ink/65",
-    entryTitle: "text-[10.5px] font-bold leading-[1.35] text-ink",
-    entrySubtitle: "text-[10px] leading-[1.4] text-ink/75",
+    body: "text-[10px] leading-[1.45] text-black/85",
+    meta: "text-[9.5px] leading-[1.4] text-black/65",
+    entryTitle: "text-[10.5px] font-bold leading-[1.35] text-black",
+    entrySubtitle: "text-[10px] leading-[1.4] text-black/75",
     bullets: "none",
     skillsLayout: "inline",
   },
   "technical-ats": {
     id: "technical-ats",
     article: `${baseArticle} px-6 py-8 sm:px-10 sm:py-10`,
-    header: "border-b-2 border-primary pb-4",
+    header: "border-b-2 border-[#2b4c7e] pb-4",
     headerAlign: "left",
-    name: "text-[25px] font-semibold leading-[1.05] tracking-tight text-primary",
-    role: "mt-1 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-primary",
-    contact: "mt-2 font-mono text-[10px] leading-[1.55] text-ink/70",
+    name: "text-[25px] font-semibold leading-[1.05] tracking-tight text-[#1f3a5f]",
+    role: "mt-1 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-[#2b4c7e]",
+    contact: "mt-2 font-mono text-[10px] leading-[1.55] text-black/70",
     contactSeparator: "  /  ",
     sectionGap: "space-y-4",
-    heading: "font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary",
+    heading: "font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#2b4c7e]",
     headingAccent: "rule",
-    body: "text-[10.5px] leading-[1.55] text-ink/85",
-    meta: "font-mono text-[9.5px] leading-[1.45] text-ink/65",
-    entryTitle: "text-[11.5px] font-semibold leading-[1.4] text-primary",
-    entrySubtitle: "font-mono text-[10px] leading-[1.45] text-primary",
+    body: "text-[10.5px] leading-[1.55] text-black/85",
+    meta: "font-mono text-[9.5px] leading-[1.45] text-black/65",
+    entryTitle: "text-[11.5px] font-semibold leading-[1.4] text-[#1f3a5f]",
+    entrySubtitle: "font-mono text-[10px] leading-[1.45] text-[#2b4c7e]",
     bullets: "dashes",
     skillsLayout: "rows",
   },
@@ -117,36 +118,36 @@ const specs: Record<ResumeTemplateId, TemplateSpec> = {
     article: `${baseArticle} px-7 py-10 sm:px-12 sm:py-12`,
     header: "pb-6",
     headerAlign: "left",
-    name: "text-[27px] font-light leading-[1.05] tracking-[-0.02em] text-ink",
-    role: "mt-1 text-[12px] font-normal text-ink/65",
-    contact: "mt-3 text-[10px] leading-[1.6] text-ink/60",
+    name: "text-[27px] font-light leading-[1.05] tracking-[-0.02em] text-black",
+    role: "mt-1 text-[12px] font-normal text-black/65",
+    contact: "mt-3 text-[10px] leading-[1.6] text-black/60",
     contactSeparator: "   ·   ",
     sectionGap: "space-y-6",
-    heading: "text-[10px] font-medium uppercase tracking-[0.24em] text-ink/55",
+    heading: "text-[10px] font-medium uppercase tracking-[0.24em] text-black/55",
     headingAccent: "none",
-    body: "text-[11px] leading-[1.65] text-ink/80",
-    meta: "text-[10px] leading-[1.5] text-ink/55",
-    entryTitle: "text-[12px] font-medium leading-[1.45] text-ink",
-    entrySubtitle: "text-[10.5px] leading-[1.5] text-ink/65",
+    body: "text-[11px] leading-[1.65] text-black/80",
+    meta: "text-[10px] leading-[1.5] text-black/55",
+    entryTitle: "text-[12px] font-medium leading-[1.45] text-black",
+    entrySubtitle: "text-[10.5px] leading-[1.5] text-black/65",
     bullets: "dots",
     skillsLayout: "inline",
   },
   "entry-level-ats": {
     id: "entry-level-ats",
     article: `${baseArticle} px-6 py-8 sm:px-10 sm:py-10`,
-    header: "border-b border-accent/25 pb-4",
+    header: "border-b border-[#c9b8a6] pb-4",
     headerAlign: "center",
-    name: "text-[25px] font-semibold leading-[1.1] tracking-tight text-primary",
-    role: "mt-1 text-[11.5px] font-medium text-accent",
-    contact: "mt-2.5 text-[10.5px] leading-[1.55] text-ink/70",
+    name: "text-[25px] font-semibold leading-[1.1] tracking-tight text-[#3f2d1c]",
+    role: "mt-1 text-[11.5px] font-medium text-[#8a5a2b]",
+    contact: "mt-2.5 text-[10.5px] leading-[1.55] text-black/70",
     contactSeparator: " · ",
     sectionGap: "space-y-5",
-    heading: "border-b border-accent/10 pb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-accent",
+    heading: "border-b border-[#e2d7c9] pb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#8a5a2b]",
     headingAccent: "none",
-    body: "text-[11px] leading-[1.58] text-ink/85",
-    meta: "text-[10.5px] leading-[1.45] text-ink/65",
-    entryTitle: "text-[12px] font-semibold leading-[1.4] text-ink",
-    entrySubtitle: "text-[11px] leading-[1.45] text-accent",
+    body: "text-[11px] leading-[1.58] text-black/85",
+    meta: "text-[10.5px] leading-[1.45] text-black/65",
+    entryTitle: "text-[12px] font-semibold leading-[1.4] text-black",
+    entrySubtitle: "text-[11px] leading-[1.45] text-[#8a5a2b]",
     bullets: "dots",
     skillsLayout: "columns",
     preferredOrder: ["summary", "education", "skills", "projects", "experience"],
@@ -154,19 +155,19 @@ const specs: Record<ResumeTemplateId, TemplateSpec> = {
   "executive-ats": {
     id: "executive-ats",
     article: `${baseArticle} px-7 py-10 sm:px-12 sm:py-12`,
-    header: "border-b-4 border-double border-primary pb-5",
+    header: "border-b-4 border-double border-[#3d2f2a] pb-5",
     headerAlign: "center",
-    name: "font-serif text-[30px] font-semibold leading-[1.05] tracking-[0.01em] text-primary",
-    role: "mt-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-primary",
-    contact: "mt-2.5 text-[10.5px] leading-[1.55] text-ink/70",
+    name: "font-serif text-[30px] font-semibold leading-[1.05] tracking-[0.01em] text-[#3d2f2a]",
+    role: "mt-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#3d2f2a]",
+    contact: "mt-2.5 text-[10.5px] leading-[1.55] text-black/70",
     contactSeparator: "  ·  ",
     sectionGap: "space-y-6",
-    heading: "border-b border-primary/30 pb-1 font-serif text-[13px] font-semibold leading-tight text-primary",
+    heading: "border-b border-[#3d2f2a]/30 pb-1 font-serif text-[13px] font-semibold leading-tight text-[#3d2f2a]",
     headingAccent: "none",
-    body: "text-[11.5px] leading-[1.6] text-ink/85",
-    meta: "text-[10.5px] leading-[1.5] text-ink/60",
-    entryTitle: "text-[12.5px] font-semibold leading-[1.4] text-ink",
-    entrySubtitle: "text-[11px] italic leading-[1.45] text-primary",
+    body: "text-[11.5px] leading-[1.6] text-black/85",
+    meta: "text-[10.5px] leading-[1.5] text-black/60",
+    entryTitle: "text-[12.5px] font-semibold leading-[1.4] text-black",
+    entrySubtitle: "text-[11px] italic leading-[1.45] text-[#3d2f2a]",
     bullets: "dots",
     skillsLayout: "rows",
     preferredOrder: ["summary", "skills", "experience", "projects", "education"],
@@ -174,19 +175,19 @@ const specs: Record<ResumeTemplateId, TemplateSpec> = {
   "project-focused-ats": {
     id: "project-focused-ats",
     article: `${baseArticle} px-6 py-8 sm:px-10 sm:py-10`,
-    header: "border-b-2 border-primary pb-4",
+    header: "border-b-2 border-[#5b3b6b] pb-4",
     headerAlign: "left",
-    name: "text-[25px] font-semibold leading-[1.05] tracking-tight text-primary",
-    role: "mt-1 text-[11.5px] font-medium text-accent",
-    contact: "mt-2 text-[10.5px] leading-[1.5] text-ink/70",
+    name: "text-[25px] font-semibold leading-[1.05] tracking-tight text-[#3c2546]",
+    role: "mt-1 text-[11.5px] font-medium text-[#5b3b6b]",
+    contact: "mt-2 text-[10.5px] leading-[1.5] text-black/70",
     contactSeparator: "  ·  ",
     sectionGap: "space-y-4",
-    heading: "border-b border-accent/10 pb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-accent",
+    heading: "border-b border-[#d9cde0] pb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#5b3b6b]",
     headingAccent: "none",
-    body: "text-[10.5px] leading-[1.55] text-ink/85",
-    meta: "text-[10px] leading-[1.45] text-ink/65",
-    entryTitle: "text-[12px] font-semibold leading-[1.4] text-ink",
-    entrySubtitle: "text-[10.5px] leading-[1.45] text-accent",
+    body: "text-[10.5px] leading-[1.55] text-black/85",
+    meta: "text-[10px] leading-[1.45] text-black/65",
+    entryTitle: "text-[12px] font-semibold leading-[1.4] text-black",
+    entrySubtitle: "text-[10.5px] leading-[1.45] text-[#5b3b6b]",
     bullets: "dots",
     skillsLayout: "rows",
     preferredOrder: ["summary", "skills", "projects", "experience", "education"],
@@ -214,8 +215,8 @@ function splitDescription(description: string): {
   const bullets: string[] = [];
 
   for (const line of lines) {
-    if (/^[-*•·]\\s+/.test(line)) {
-      bullets.push(line.replace(/^[-*•·]\\s+/, "").trim());
+    if (isBulletLine(line)) {
+      bullets.push(stripBulletMarker(line));
     } else {
       prose.push(line);
     }
@@ -277,7 +278,7 @@ function BulletLine({
     <li className={`flex gap-2 ${spec.body}`}>
       <span
         aria-hidden="true"
-        className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-ink/60"
+        className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-black/60"
       />
       <span>{children}</span>
     </li>
@@ -305,17 +306,17 @@ function SectionHeading({
       {spec.headingAccent === "bar" ? (
         <span
           aria-hidden="true"
-          className="h-3 w-0.5 shrink-0 rounded-full bg-accent"
+          className="h-3 w-0.5 shrink-0 rounded-full bg-[#2f6b57]"
         />
       ) : null}
       <h2 className={`${spec.heading} ${spec.headingAccent === "rule" ? "shrink-0" : ""}`}>
         {children}
       </h2>
       {spec.headingAccent === "rule" ? (
-        <span aria-hidden="true" className="h-px flex-1 bg-primary/25" />
+        <span aria-hidden="true" className="h-px flex-1 bg-[#2b4c7e]/25" />
       ) : null}
       {spec.headingAccent === "thick" ? (
-        <span aria-hidden="true" className="h-0.5 flex-1 bg-ink/25" />
+        <span aria-hidden="true" className="h-0.5 flex-1 bg-black/25" />
       ) : null}
     </div>
   );
@@ -334,7 +335,7 @@ function ExperienceEntry({
   );
   const { prose, bullets } = splitDescription(item.description);
   const achievements = item.achievements
-    .map((achievement) => achievement.replace(/^[-*•·]\\s+/, "").trim())
+    .map(stripBulletMarker)
     .filter(Boolean);
   const meta = [item.employmentType, item.location].filter(Boolean).join(" · ");
 
@@ -355,7 +356,7 @@ function ExperienceEntry({
 
       {prose.length > 0 ? (
         <p className={`mt-1 whitespace-pre-line ${spec.body}`}>
-          {prose.join("\\n")}
+          {prose.join("\n")}
         </p>
       ) : null}
 
@@ -388,7 +389,7 @@ function ProjectEntry({
     .filter((value): value is string => Boolean(value));
   const dateRange = formatDateRange(item.startDate ?? "", item.endDate ?? null);
   const achievements = (item.achievements ?? [])
-    .map((achievement) => achievement.replace(/^[-*•·]\\s+/, "").trim())
+    .map(stripBulletMarker)
     .filter(Boolean);
 
   return (
@@ -413,7 +414,7 @@ function ProjectEntry({
 
       {prose.length > 0 ? (
         <p className={`mt-1 whitespace-pre-line ${spec.body}`}>
-          {prose.join("\\n")}
+          {prose.join("\n")}
         </p>
       ) : null}
 
@@ -492,7 +493,7 @@ function SkillsBlock({
             >
               <span
                 aria-hidden="true"
-                className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-ink/55"
+                className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-black/55"
               />
               <span>{item}</span>
             </li>
@@ -687,6 +688,15 @@ function ResumeSections({
           </div>
         </section>
       ))}
+
+      {resume.coverLetter?.trim() ? (
+        <section className="break-inside-avoid">
+          <SectionHeading spec={spec}>Cover Letter</SectionHeading>
+          <p className={`mt-1.5 whitespace-pre-line ${spec.body}`}>
+            {resume.coverLetter.trim()}
+          </p>
+        </section>
+      ) : null}
     </div>
   );
 }
@@ -786,7 +796,8 @@ export function hasResumeContent(resume: EditorResumeData): boolean {
     resume.projects.length > 0 ||
     resume.education.length > 0 ||
     (resume.certifications?.length ?? 0) > 0 ||
-    (resume.additionalSections?.length ?? 0) > 0
+    (resume.additionalSections?.length ?? 0) > 0 ||
+    Boolean(resume.coverLetter?.trim())
   );
 }
 

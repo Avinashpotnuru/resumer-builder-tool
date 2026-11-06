@@ -36,11 +36,11 @@ import {
 type SaveStatus = "idle" | "saved" | "error";
 
 const fieldClassName =
-  "h-11 w-full rounded-lg border border-line bg-canvas/40 px-3.5 text-sm text-ink transition-colors placeholder:text-muted/60 focus:border-accent focus:bg-surface focus:ring-2 focus:ring-accent/20 focus:outline-none";
+  "h-11 w-full rounded-[22px] border border-line bg-accent-soft/40 px-3.5 text-sm text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none";
 
 function TemplateBadge({ template }: { template: ResumeTemplateId }) {
   return (
-    <span className="rounded-full bg-ink/[0.05] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
+    <span className="rounded-full border border-line bg-background px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-primary">
       {RESUME_TEMPLATE_LABELS[template]}
     </span>
   );
@@ -82,19 +82,19 @@ export function SavedResumeView({ resumeId }: { resumeId: string }) {
     return (
       <div
         aria-hidden="true"
-        className="h-48 rounded-xl border border-line bg-surface"
+        className="h-48 rounded-[26px] border border-line bg-card"
       />
     );
   }
 
   if (!record || !original) {
     return (
-      <div className="rounded-xl border border-line bg-surface px-6 py-14 sm:px-12 sm:py-16">
+      <div className="rounded-[26px] border border-line bg-card px-6 py-14 sm:px-12 sm:py-16">
         <div className="mx-auto flex max-w-md flex-col items-center text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent-soft text-accent">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-background text-accent">
             <FilesIcon className="h-5 w-5" />
           </div>
-          <h2 className="mt-5 text-lg font-semibold tracking-tight text-ink">
+          <h2 className="mt-5 font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
             Saved resume not found
           </h2>
           <p className="mt-2 text-sm leading-6 text-muted">
@@ -196,17 +196,17 @@ function SavedResumeContent({
   };
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-5">
+    <div className="space-y-10">
+      <div className="space-y-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-2">
             <Link
               href="/resumes"
-              className="text-[11px] font-medium text-muted transition-colors hover:text-ink"
+              className="text-[11px] font-medium text-muted underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong"
             >
               ← Back to library
             </Link>
-            <h2 className="text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">
+            <h2 className="font-heading text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-5xl">
               {title}
             </h2>
             <p className="text-sm leading-6 text-muted">
@@ -219,7 +219,7 @@ function SavedResumeContent({
             <button
               type="button"
               onClick={handleDelete}
-              className="inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-xs font-medium text-danger transition-colors hover:bg-danger-soft focus-visible:ring-2 focus-visible:ring-danger/30 focus-visible:outline-none"
+              className="inline-flex h-9 items-center gap-1.5 rounded-full px-4 text-xs font-medium text-danger transition-colors hover:bg-danger-soft focus-visible:ring-2 focus-visible:ring-danger/30 focus-visible:outline-none"
             >
               <TrashIcon className="h-3.5 w-3.5" />
               Delete resume
@@ -229,10 +229,10 @@ function SavedResumeContent({
 
         <form
           onSubmit={handleMetadataSave}
-          className="rounded-xl border border-line bg-surface p-5 sm:p-6"
+          className="rounded-[26px] border border-line bg-card p-6 sm:p-8"
         >
           <div className="flex flex-wrap items-baseline justify-between gap-3">
-            <h3 className="text-sm font-semibold tracking-tight text-ink">
+            <h3 className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
               Role details
             </h3>
             <StatusMessage status={status} />
@@ -288,7 +288,7 @@ function SavedResumeContent({
             </p>
             <button
               type="submit"
-              className="inline-flex h-9 items-center justify-center rounded-lg border border-line bg-surface px-4 text-xs font-medium text-ink transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
+              className="inline-flex h-9 items-center justify-center rounded-full border border-line bg-card px-4 text-[12px] font-medium text-ink transition-colors hover:border-primary/40 hover:bg-accent-soft/50 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface focus-visible:outline-none"
             >
               Save details
             </button>

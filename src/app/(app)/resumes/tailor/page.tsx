@@ -15,13 +15,15 @@ export default async function TailorResumePage({
   const template = normalizeTemplateId(Array.isArray(raw) ? raw[0] : raw);
 
   return (
-    <div className="w-full space-y-8">
-      <div className="max-w-2xl space-y-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+    <div className="w-full space-y-10">
+      <div className="max-w-2xl space-y-5">
+        <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">
+          <span aria-hidden="true" className="h-px w-7 bg-accent" />
           Tailor resume for a job
         </p>
-        <h2 className="text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">
-          Match your resume to one role
+        <h2 className="font-heading text-4xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-5xl">
+          Match your resume
+          <span className="block italic text-accent">to one role.</span>
         </h2>
         <p className="max-w-xl text-sm leading-6 text-muted sm:text-[15px]">
           Upload the resume you have and paste the job description. You will
@@ -29,19 +31,31 @@ export default async function TailorResumePage({
           and we build a separate job-specific version. Your original stays
           untouched.
         </p>
-        <p className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-[11px] text-muted">
-          <span>1. Upload resume</span>
-          <span>2. Paste job description</span>
-          <span>3. Confirm missing skills</span>
-          <span>4. Generate &amp; export</span>
-        </p>
+        <ol className="flex flex-wrap gap-x-5 gap-y-2 pt-1 text-[11px] text-muted">
+          {[
+            "Upload resume",
+            "Paste job description",
+            "Confirm missing skills",
+            "Generate & export",
+          ].map((step, index) => (
+            <li key={step} className="flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full border border-line bg-card text-[9px] font-semibold tabular-nums text-accent-strong">
+                {index + 1}
+              </span>
+              {step}
+            </li>
+          ))}
+        </ol>
       </div>
 
       <ResumeWorkflow initialTemplate={template} />
 
-      <p className="text-[11px] text-muted">
+      <p className="text-[11.5px] text-muted">
         Want a fresh start instead?{" "}
-        <Link href="/resumes/create" className="font-medium text-ink hover:underline">
+        <Link
+          href="/resumes/create"
+          className="font-medium text-ink underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong"
+        >
           Create a resume from your existing file
         </Link>{" "}
         — no job description needed.
