@@ -11,6 +11,7 @@ import {
 
 import type {
   AdditionalSection,
+  AnyTemplateId,
   CertificationItem,
   EditorResumeData,
   EducationItem,
@@ -19,7 +20,12 @@ import type {
   ResumeSectionId,
   ResumeTemplateId,
 } from "./editor-store";
-import { RESUME_SECTION_LABELS } from "./editor-store";
+import { DEFAULT_RESUME_TEMPLATE, RESUME_SECTION_LABELS } from "./editor-store";
+import { isCustomTemplateId } from "./template-catalog";
+import type {
+  CustomTemplateConfig,
+  TemplateLayout as CustomTemplateLayout,
+} from "./custom-template";
 import { categorizeSkills } from "./categorize-skills";
 import { isBulletLine, stripBulletMarker } from "./bullet-text";
 
@@ -67,6 +73,8 @@ type TemplateFormat = {
   bodyColor: string;
   entryTitleColor: string;
   entrySubtitleColor: string;
+  /** Optional override for heading capitalization; defaults by layout. */
+  uppercaseHeadings?: boolean;
 };
 
 const TEMPLATE_FORMATS: Record<ResumeTemplateId, TemplateFormat> = {
@@ -248,6 +256,101 @@ const TEMPLATE_FORMATS: Record<ResumeTemplateId, TemplateFormat> = {
   },
 };
 
+/* ------------------------------------------------------------------ */
+/* Custom template → DOCX format                                      */
+/* ------------------------------------------------------------------ */
+
+function normalizeHexColor(value: string, fallback: string): string {
+  const cleaned = value.replace(/^#/, "").trim();
+
+  if (/^[0-9a-fA-F]{3}$/.test(cleaned)) {
+    return cleaned
+      .split("")
+      .map((character) => `${character}${character}`)
+      .join("")
+      .toUpperCase();
+  }
+
+  return /^[0-9a-fA-F]{6}$/.test(cleaned)
+    ? cleaned.toUpperCase()
+    : fallback;
+}
+
+function pxToHalfPoints(value: string, fallback: number): number {
+  const parsed = Number.parseFloat(value);
+  return Number.isFinite(parsed) && parsed > 0
+    ? Math.round(parsed * 1.5)
+    : fallback;
+}
+
+function marginToTwips(value: CustomTemplateLayout["pageMargins"]): number {
+  switch (value) {
+    case "narrow":
+      return 1080; // 0.75in
+    case "wide":
+      return 1800; // 1.25in
+    case "standard":
+    default:
+      return STANDARD_PAGE_MARGIN;
+  }
+}
+
+function formatFromCustomConfig(config: CustomTemplateConfig): TemplateFormat {
+  const margin = marginToTwips(config.layout.pageMargins);
+  const bodySize = pxToHalfPoints(config.typography.bodyFontSize, BODY_SIZE);
+  const headingSize = pxToHalfPoints(
+    config.typography.headingFontSize,
+    SECTION_HEADING_SIZE,
+  );
+  const titleSize = pxToHalfPoints(config.typography.nameFontSize, TITLE_SIZE);
+  const dividerColor = normalizeHexColor(config.colors.dividerColor, COLORS.line);
+
+  return {
+    layout: "modern",
+    margin,
+    contentWidth: PAGE_WIDTH - margin * 2,
+    bodySize,
+    sectionHeadingSize: headingSize,
+    entryTitleSize: headingSize,
+    metaSize: Math.max(bodySize - 1, 14),
+    titleSize,
+    headerAlignment:
+      config.layout.headerAlignment === "center"
+        ? AlignmentType.CENTER
+        : AlignmentType.LEFT,
+    headerBorderTarget: config.layout.dividerVisibility ? "title" : "none",
+    headerBorderColor: dividerColor,
+    headerBorderSize: config.layout.dividerVisibility ? 6 : 0,
+    headerLabelColor: normalizeHexColor(config.colors.accent, COLORS.accent),
+    headerLabelSize: Math.max(bodySize - 2, 14),
+    titleColor: normalizeHexColor(config.colors.primary, COLORS.ink),
+    headingColor: normalizeHexColor(config.colors.headingColor, COLORS.ink),
+    headingBorder: config.layout.dividerVisibility,
+    bodyColor: normalizeHexColor(config.colors.text, COLORS.body),
+    entryTitleColor: normalizeHexColor(config.colors.text, COLORS.ink),
+    entrySubtitleColor: normalizeHexColor(
+      config.colors.secondary,
+      COLORS.muted,
+    ),
+    uppercaseHeadings: false,
+  };
+}
+
+function resolveFormat(
+  template: AnyTemplateId,
+  customConfig: CustomTemplateConfig | null | undefined,
+): TemplateFormat {
+  if (isCustomTemplateId(template) && customConfig) {
+    return formatFromCustomConfig(customConfig);
+  }
+
+  if (template in TEMPLATE_FORMATS) {
+    return TEMPLATE_FORMATS[template as ResumeTemplateId];
+  }
+
+  return TEMPLATE_FORMATS[DEFAULT_RESUME_TEMPLATE];
+}
+
 function formatDateRange(startDate: string, endDate: string | null): string {
   const start = startDate.trim();
   const end = endDate?.trim() ?? "";
@@ -338,13 +441,14 @@ function sectionHeading(
   format: TemplateFormat,
 ): Paragraph {
   const professional = format.layout === "professional";
+  const uppercase = format.uppercaseHeadings ?? !professional;
 
   return new Paragraph({
     children: [
       new TextRun({
-        text: professional ? label : label.toUpperCase(),
+        text: uppercase ? label.toUpperCase() : label,
         bold: true,
-        allCaps: !professional,
+        allCaps: uppercase,
         size: format.sectionHeadingSize,
         color: format.headingColor,
         characterSpacing: professional ? 0 : 30,
@@ -746,14 +850,19 @@ function sectionParagraphs(
   resume: EditorResumeData,
   sectionId: ResumeSectionId,
   format: TemplateFormat,
+  options?: { heading?: string | null; showHeading?: boolean },
 ): Paragraph[] {
-  const heading = sectionHeading(RESUME_SECTION_LABELS[sectionId], format);
+  const showHeading = options?.showHeading ?? true;
+  const headingLabel = options?.heading ?? RESUME_SECTION_LABELS[sectionId];
+  const heading = showHeading ? sectionHeading(headingLabel, format) : null;
+  const withHeading = (paragraphs: Paragraph[]): Paragraph[] =>
+    heading ? [heading, ...paragraphs] : paragraphs;
 
   switch (sectionId) {
     case "summary": {
       const summary = resume.professionalSummary?.trim();
       if (!summary) return [];
-      return [heading, ...bodyParagraphs(summary, format)];
+      return withHeading(bodyParagraphs(summary, format));
     }
 
     case "skills": {
@@ -764,9 +873,8 @@ function sectionParagraphs(
 
       if (format.layout === "professional") {
         const categories = categorizeSkills(skills);
-        return [
-          heading,
-          ...categories.map(
+        return withHeading(
+          categories.map(
             (category) =>
               new Paragraph({
                 children: [
@@ -786,40 +894,31 @@ function sectionParagraphs(
                 keepLines: true,
               }),
           ),
-        ];
+        );
       }
 
-      return [heading, ...skills.map((skill) => bulletParagraph(skill, format))];
+      return withHeading(skills.map((skill) => bulletParagraph(skill, format)));
     }
 
     case "experience": {
       if (resume.experience.length === 0) return [];
-      return [
-        heading,
-        ...resume.experience.flatMap((item) =>
-          experienceParagraphs(item, format),
-        ),
-      ];
+      return withHeading(
+        resume.experience.flatMap((item) => experienceParagraphs(item, format)),
+      );
     }
 
     case "projects": {
       if (resume.projects.length === 0) return [];
-      return [
-        heading,
-        ...resume.projects.flatMap((item) =>
-          projectParagraphs(item, format),
-        ),
-      ];
+      return withHeading(
+        resume.projects.flatMap((item) => projectParagraphs(item, format)),
+      );
     }
 
     case "education": {
       if (resume.education.length === 0) return [];
-      return [
-        heading,
-        ...resume.education.flatMap((item) =>
-          educationParagraphs(item, format),
-        ),
-      ];
+      return withHeading(
+        resume.education.flatMap((item) => educationParagraphs(item, format)),
+      );
     }
   }
 }
@@ -827,11 +926,12 @@ function sectionParagraphs(
 function certificationParagraphs(
   items: CertificationItem[],
   format: TemplateFormat,
+  showHeading = true,
 ): Paragraph[] {
-  const heading = sectionHeading("Certifications", format);
+  const heading = showHeading ? sectionHeading("Certifications", format) : null;
 
   return [
-    heading,
+    ...(heading ? [heading] : []),
     ...items.flatMap((item) => {
       const dateRange = [item.issueDate.trim(), item.expirationDate.trim()]
         .filter(Boolean)
@@ -867,12 +967,13 @@ function certificationParagraphs(
 function additionalSectionParagraphs(
   section: AdditionalSection,
   format: TemplateFormat,
+  showHeading = true,
 ): Paragraph[] {
   const title = section.title.trim();
   if (!title) return [];
 
-  const heading = sectionHeading(title, format);
-  const paragraphs: Paragraph[] = [heading];
+  const heading = showHeading ? sectionHeading(title, format) : null;
+  const paragraphs: Paragraph[] = heading ? [heading] : [];
 
   for (const entry of section.entries) {
     const entryTitle = entry.title.trim();
@@ -912,17 +1013,18 @@ function additionalSectionParagraphs(
     }
   }
 
-  return paragraphs.length > 1 ? paragraphs : [];
+  return paragraphs.length > (heading ? 1 : 0) ? paragraphs : [];
 }
 
 function coverLetterParagraphs(
   coverLetter: string,
   format: TemplateFormat,
+  showHeading = true,
 ): Paragraph[] {
-  const heading = sectionHeading("Cover Letter", format);
+  const heading = showHeading ? sectionHeading("Cover Letter", format) : null;
 
   return [
-    heading,
+    ...(heading ? [heading] : []),
     ...coverLetter.split("\n").map((line) => {
       if (line.trim() === "") {
         return new Paragraph({
@@ -1048,9 +1150,19 @@ function headerParagraphs(
 export function buildResumeDocx(
   resume: EditorResumeData,
   sectionOrder: ResumeSectionId[],
-  template: ResumeTemplateId,
+  template: AnyTemplateId,
+  customConfig?: CustomTemplateConfig | null,
 ): Document {
-  const format = TEMPLATE_FORMATS[template];
+  const format = resolveFormat(template, customConfig);
+  const usingCustom = isCustomTemplateId(template) && Boolean(customConfig);
+  const showHeadings = usingCustom
+    ? customConfig!.sections.showSectionHeadings
+    : true;
+  const orderedSections = usingCustom
+    ? customConfig!.sections.sectionOrder.filter(
+        (id) => customConfig!.sections.sectionVisibility[id] ?? true,
+      )
+    : sectionOrder;
   const certifications = (resume.certifications ?? []).filter(
     (item) => item.name.trim() || item.issuer.trim(),
   );
@@ -1064,19 +1176,33 @@ export function buildResumeDocx(
 
   const children: Paragraph[] = [
     ...headerParagraphs(resume, format),
-    ...sectionOrder.flatMap((sectionId) =>
-      sectionParagraphs(resume, sectionId, format),
+    ...orderedSections.flatMap((sectionId) =>
+      sectionParagraphs(
+        resume,
+        sectionId,
+        format,
+        usingCustom
+          ? {
+              heading: customConfig!.sections.sectionHeadings[sectionId] ?? null,
+              showHeading: showHeadings,
+            }
+          : undefined,
+      ),
     ),
     ...(certifications.length > 0
-      ? certificationParagraphs(certifications, format)
+      ? certificationParagraphs(certifications, format, showHeadings)
       : []),
     ...additionalSections.flatMap((section) =>
-      additionalSectionParagraphs(section, format),
+      additionalSectionParagraphs(section, format, showHeadings),
     ),
     ...(resume.coverLetter?.trim()
-      ? coverLetterParagraphs(resume.coverLetter, format)
+      ? coverLetterParagraphs(resume.coverLetter, format, showHeadings)
       : []),
   ];
+
+  const letterSize = usingCustom && customConfig!.layout.pageSize === "US Letter";
+  const pageWidth = letterSize ? 12240 : PAGE_WIDTH;
+  const pageHeight = letterSize ? 15840 : PAGE_HEIGHT;
 
   return new Document({
     creator: "HonestCV — Resume Builder",
@@ -1100,7 +1226,7 @@ export function buildResumeDocx(
       {
         properties: {
           page: {
-            size: { width: PAGE_WIDTH, height: PAGE_HEIGHT },
+            size: { width: pageWidth, height: pageHeight },
             margin: {
               top: 720,
               right: format.margin,
@@ -1117,7 +1243,7 @@ export function buildResumeDocx(
 
 function createFileName(
   resume: EditorResumeData,
-  template: ResumeTemplateId,
+  template: AnyTemplateId,
 ): string {
   const slug = (
     resume.personalInfo?.fullName?.trim() ||
@@ -1134,9 +1260,10 @@ function createFileName(
 export async function downloadResumeDocx(
   resume: EditorResumeData,
   sectionOrder: ResumeSectionId[],
-  template: ResumeTemplateId,
+  template: AnyTemplateId,
+  customConfig?: CustomTemplateConfig | null,
 ): Promise<void> {
-  const doc = buildResumeDocx(resume, sectionOrder, template);
+  const doc = buildResumeDocx(resume, sectionOrder, template, customConfig);
   const blob = await Packer.toBlob(doc);
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");

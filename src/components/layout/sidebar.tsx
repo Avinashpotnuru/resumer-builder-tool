@@ -8,6 +8,7 @@ import {
   DashboardIcon,
   DocumentPlusIcon,
   FilesIcon,
+  LayersIcon,
   LogoIcon,
 } from "@/components/ui/icons";
 
@@ -21,6 +22,7 @@ const icons = {
   dashboard: DashboardIcon,
   create: DocumentPlusIcon,
   resumes: FilesIcon,
+  templates: LayersIcon,
 } as const;
 
 export function Sidebar({ open, onNavigate, onClose }: SidebarProps) {

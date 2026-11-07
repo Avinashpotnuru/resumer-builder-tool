@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import type { OriginalResumeData, OptimizedResumeData } from "./source-tracking";
 import { DEFAULT_RESUME_TEMPLATE } from "./template-catalog";
-import type { ResumeTemplateId } from "./template-catalog";
+import type { AnyTemplateId } from "./template-catalog";
 
 export type ExperienceItem = {
   id: string;
@@ -151,6 +151,11 @@ export {
   DEFAULT_RESUME_TEMPLATE,
   RESUME_TEMPLATE_LABELS,
   RESUME_TEMPLATES,
+  CUSTOM_TEMPLATE_PREFIX,
+  type CustomTemplateId,
+  type AnyTemplateId,
+  isCustomTemplateId,
+  isAnyTemplateId,
 } from "./template-catalog";
 export type { ResumeTemplateId } from "./template-catalog";
 
@@ -172,7 +177,7 @@ export type ResumeEditorState = {
   optimizedResume: OptimizedResumeData | null;
   workingResume: EditorResumeData | null;
   sectionOrder: ResumeSectionId[];
-  template: ResumeTemplateId;
+  template: AnyTemplateId;
   isDirty: boolean;
 
   setResumes: (
@@ -213,13 +218,13 @@ export type ResumeEditorState = {
   removeAdditionalEntry: (sectionId: string, entryId: string) => void;
   moveSection: (id: ResumeSectionId, direction: "up" | "down") => void;
   resetSectionOrder: () => void;
-  setTemplate: (template: ResumeTemplateId) => void;
+  setTemplate: (template: AnyTemplateId) => void;
   hydrateSavedResume: (
     original: OriginalResumeData,
     optimized: OptimizedResumeData,
     resume: EditorResumeData,
     sectionOrder: ResumeSectionId[],
-    template: ResumeTemplateId,
+    template: AnyTemplateId,
   ) => void;
   resetWorkingResume: () => void;
   setDirty: (dirty: boolean) => void;

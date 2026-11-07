@@ -8,7 +8,8 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { FilesIcon, TargetIcon, TrashIcon } from "@/components/ui/icons";
 import {
   RESUME_TEMPLATE_LABELS,
-  type ResumeTemplateId,
+  type AnyTemplateId,
+  isCustomTemplateId,
 } from "@/lib/resume/editor-store";
 import {
   deleteTailoredResume,
@@ -44,10 +45,14 @@ function tailoredTitle(record: TailoredResumeRecord): string {
   );
 }
 
-function TemplateBadge({ template }: { template: ResumeTemplateId }) {
+function TemplateBadge({
+  template,
+}: {
+  template: AnyTemplateId;
+}) {
   return (
     <span className="rounded-full border border-line bg-background px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
-      {RESUME_TEMPLATE_LABELS[template]}
+      {isCustomTemplateId(template) ? "Custom Template" : RESUME_TEMPLATE_LABELS[template]}
     </span>
   );
 }

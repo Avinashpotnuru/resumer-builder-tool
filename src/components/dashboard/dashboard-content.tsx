@@ -11,7 +11,7 @@ import {
   LayersIcon,
   TargetIcon,
 } from "@/components/ui/icons";
-import { RESUME_TEMPLATE_LABELS } from "@/lib/resume/editor-store";
+import { RESUME_TEMPLATE_LABELS, isCustomTemplateId } from "@/lib/resume/editor-store";
 import {
   useIsClient,
   useResumeLibrary,
@@ -164,10 +164,41 @@ export function DashboardContent() {
           <StatCard
             label="Templates Used"
             value="8"
-            hint="ATS-safe layouts available"
+            hint="ATS-safe layouts — or design your own"
             icon={<LayersIcon className="h-[18px] w-[18px]" />}
           />
         </dl>
+      </section>
+
+      <section className="overflow-hidden rounded-[26px] border border-primary/20 bg-accent-soft/50 p-6 sm:p-8">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-4">
+            <span
+              aria-hidden="true"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line bg-card text-accent-strong"
+            >
+              <LayersIcon className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-accent">
+                Template studio
+              </p>
+              <h2 className="mt-1.5 font-heading text-xl font-semibold tracking-[-0.02em] text-ink">
+                Create your own resume template
+              </h2>
+              <p className="mt-1.5 max-w-xl text-xs leading-5 text-muted">
+                Change fonts, colors, spacing, columns, and section order with a
+                live preview. Save it locally and reuse it on any resume.
+              </p>
+            </div>
+          </div>
+          <div className="flex shrink-0 flex-wrap items-center gap-2 sm:justify-end">
+            <ActionLink href="/templates/custom">Create a template</ActionLink>
+            <ActionLink href="/templates" variant="quiet">
+              Browse gallery
+            </ActionLink>
+          </div>
+        </div>
       </section>
 
       <section className="space-y-4">
@@ -219,7 +250,9 @@ export function DashboardContent() {
 
                     <div className="flex items-center gap-3 pl-12 sm:shrink-0 sm:justify-end sm:pl-0">
                       <span className="inline-flex items-center rounded-full border border-line bg-background px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
-                        {RESUME_TEMPLATE_LABELS[record.template]}
+                        {isCustomTemplateId(record.template)
+                          ? "Custom Template"
+                          : RESUME_TEMPLATE_LABELS[record.template]}
                       </span>
                       <span className="whitespace-nowrap text-[11px] text-muted">
                         {relativeTime(record.updatedAt)}

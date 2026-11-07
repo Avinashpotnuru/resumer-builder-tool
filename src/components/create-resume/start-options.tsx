@@ -7,7 +7,7 @@ import {
   DocumentPlusIcon,
 } from "@/components/ui/icons";
 import { createEmptyPersonalInfo } from "@/lib/resume/editor-store";
-import type { ResumeTemplateId } from "@/lib/resume/editor-store";
+import type { AnyTemplateId } from "@/lib/resume/editor-store";
 import { createOriginalResume } from "@/lib/resume/source-tracking";
 import { saveTailoredResume } from "@/lib/resume/persistence";
 
@@ -22,7 +22,7 @@ function createId(): string {
 export function BlankResumeOption({
   initialTemplate,
 }: {
-  initialTemplate: ResumeTemplateId;
+  initialTemplate: AnyTemplateId;
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);

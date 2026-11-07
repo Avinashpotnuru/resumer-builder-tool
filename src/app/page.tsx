@@ -73,31 +73,43 @@ const features = [
     title: "Zero fabrication",
     body: "Deterministic rules against a maintained skill dictionary. If you didn't confirm it, it doesn't appear.",
     icon: ShieldIcon,
+    href: "/resumes/tailor",
+    label: "Tailor for a job",
   },
   {
     title: "Original stays original",
     body: "Every tailored version is stored separately. Your starting resume is never overwritten.",
     icon: FilesIcon,
+    href: "/resumes/create",
+    label: "Create from upload",
   },
   {
     title: "Independent records",
     body: "Each company, project, and education entry stays independent — never merged or flattened.",
     icon: LayersIcon,
+    href: "/resumes/new",
+    label: "Start from scratch",
   },
   {
     title: "Extracted, then editable",
     body: "What the parser finds lands in an editable form. Fix one field, not the whole document.",
     icon: PenIcon,
+    href: "/resumes/create",
+    label: "Create from upload",
   },
   {
     title: "Local by default",
     body: "Resumes are saved in this browser's storage. No account, no upload, nothing to sync.",
     icon: DownloadIcon,
+    href: "/resumes/new",
+    label: "Start from scratch",
   },
   {
     title: "Preview is the document",
     body: "The on-screen preview renders the same layout the PDF and Word exports produce.",
     icon: TargetIcon,
+    href: "/templates",
+    label: "Browse templates",
   },
 ];
 
@@ -173,24 +185,23 @@ export default function Home() {
         <section aria-labelledby="hero-heading" className="relative overflow-hidden">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-40 -top-56 h-[620px] w-[620px] rounded-full bg-[radial-gradient(circle,rgba(181,86,58,0.13),transparent_66%)]"
+            className="pointer-events-none absolute -right-40 -top-56 h-[620px] w-[620px] rounded-full bg-[radial-gradient(circle,rgba(181,86,58,0.13),transparent_66%)] animate-drift-left"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -left-48 top-40 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(31,61,51,0.08),transparent_68%)]"
+            className="pointer-events-none absolute -left-48 top-40 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(31,61,51,0.08),transparent_68%)] animate-drift-right"
           />
 
           <div className="relative mx-auto grid w-full max-w-7xl gap-16 px-4 pb-20 pt-14 sm:px-6 sm:pb-24 sm:pt-20 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:items-center lg:gap-12 lg:px-8 lg:pb-28 lg:pt-24">
             <div>
-              <p className="reveal flex items-center gap-3 text-[10.5px] font-semibold uppercase tracking-[0.24em] text-muted">
+              <p className="reveal-stagger flex items-center gap-3 text-[10.5px] font-semibold uppercase tracking-[0.24em] text-muted">
                 <span aria-hidden="true" className="h-px w-8 bg-accent" />
                 Resume studio · no AI, no invention
               </p>
 
               <h1
                 id="hero-heading"
-                className="reveal mt-6 font-heading text-[44px] font-semibold leading-[0.94] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[74px]"
-                style={{ animationDelay: "70ms" }}
+                className="reveal-stagger mt-6 font-heading text-[44px] font-semibold leading-[0.94] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[74px]"
               >
                 The resume you already earned,
                 <span className="mt-1 block italic text-accent">
@@ -198,19 +209,13 @@ export default function Home() {
                 </span>
               </h1>
 
-              <p
-                className="reveal mt-7 max-w-[47ch] text-[15px] leading-7 text-muted sm:text-[16px] sm:leading-8"
-                style={{ animationDelay: "140ms" }}
-              >
+              <p className="reveal-stagger mt-7 max-w-[47ch] text-[15px] leading-7 text-muted sm:text-[16px] sm:leading-8">
                 Upload your resume, tune it to a real job description, and export
                 a clean document — without inventing a single skill, employer, or
                 date.
               </p>
 
-              <div
-                className="reveal mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
-                style={{ animationDelay: "200ms" }}
-              >
+              <div className="reveal-stagger mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Link
                   href="/resumes/create"
                   className="group inline-flex h-13 items-center justify-center gap-2.5 rounded-full bg-primary px-7 text-[13.5px] font-medium text-primary-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
@@ -229,16 +234,14 @@ export default function Home() {
 
               <Link
                 href="/resumes/new"
-                className="reveal group mt-5 inline-flex items-center gap-1.5 text-[12px] font-medium text-muted transition-colors hover:text-ink"
-                style={{ animationDelay: "240ms" }}
+                className="reveal-stagger group mt-5 inline-flex items-center gap-1.5 text-[12px] font-medium text-muted transition-colors hover:text-ink"
               >
                 Or start from a blank page
                 <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
               </Link>
 
               <ul
-                className="reveal mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-line pt-6 text-[11.5px] text-muted"
-                style={{ animationDelay: "300ms" }}
+                className="reveal-stagger mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-line pt-6 text-[11.5px] text-muted"
               >
                 {[
                   "Parsed in your browser",
@@ -253,7 +256,7 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="reveal-fade lg:pl-4" style={{ animationDelay: "180ms" }}>
+            <div className="reveal-stagger lg:pl-4">
               <HeroVisual />
             </div>
           </div>
@@ -268,17 +271,17 @@ export default function Home() {
           <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div className="max-w-[46ch]">
-                <p className="text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
+                <p className="reveal-stagger text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
                   Two ways in
                 </p>
                 <h2
                   id="workflows-heading"
-                  className="mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[44px]"
+                  className="reveal-stagger mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[44px]"
                 >
                   One studio. Two honest paths.
                 </h2>
               </div>
-              <p className="max-w-[34ch] text-[13px] leading-6 text-muted">
+              <p className="reveal-stagger max-w-[34ch] text-[13px] leading-6 text-muted">
                 They never mix. Pick one — you can always run the other later.
               </p>
             </div>
@@ -291,11 +294,15 @@ export default function Home() {
                   <Link
                     key={workflow.href}
                     href={workflow.href}
-                    className="group relative flex flex-col overflow-hidden rounded-[28px] border border-line bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_34px_70px_-42px_rgba(27,33,29,0.55)] focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none sm:p-9"
+                    className="group relative flex flex-col overflow-hidden rounded-[28px] border border-line bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_34px_70px_-42px_rgba(27,33,29,0.55)] focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none sm:p-9 reveal-stagger"
                   >
                     <span
                       aria-hidden="true"
                       className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-r from-accent/0 via-accent/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                     />
                     <div className="flex items-start justify-between gap-4">
                       <span className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-accent-soft/70 text-accent-strong transition-colors duration-300 group-hover:border-accent/30 group-hover:bg-accent group-hover:text-accent-foreground">
@@ -344,22 +351,22 @@ export default function Home() {
         >
           <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
             <div className="max-w-2xl">
-              <p className="text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
+              <p className="reveal-stagger text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
                 How it works
               </p>
               <h2
                 id="how-heading"
-                className="mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[44px]"
+                className="reveal-stagger mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[44px]"
               >
                 Four steps. Nothing added behind your back.
               </h2>
-              <p className="mt-5 max-w-[52ch] text-[13.5px] leading-7 text-muted">
+              <p className="reveal-stagger mt-5 max-w-[52ch] text-[13.5px] leading-7 text-muted">
                 Every step keeps you in control. Nothing appears on the page that
                 you didn&rsquo;t write or approve.
               </p>
             </div>
 
-            <ol className="mt-14 grid gap-px overflow-hidden rounded-[28px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+            <ol className="mt-14 grid gap-px overflow-hidden rounded-[28px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-4 reveal-stagger">
               {steps.map((step) => (
                 <li
                   key={step.number}
@@ -405,30 +412,30 @@ export default function Home() {
           <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div className="max-w-[48ch]">
-                <p className="text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
+                <p className="reveal-stagger text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
                   Templates
                 </p>
                 <h2
                   id="templates-heading"
-                  className="mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[44px]"
+                  className="reveal-stagger mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[44px]"
                 >
                   Quiet pages that read well twice.
                 </h2>
-                <p className="mt-5 max-w-[48ch] text-[13.5px] leading-7 text-muted">
+                <p className="reveal-stagger mt-5 max-w-[48ch] text-[13.5px] leading-7 text-muted">
                   Eight ATS-safe layouts, rendered from the same content model as
                   the export. Once for the parser, once for the person.
                 </p>
               </div>
               <Link
                 href="/templates"
-                className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line bg-surface px-5 py-2.5 text-[12.5px] font-semibold text-ink transition-colors hover:border-primary/40 hover:bg-accent-soft focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
+                className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line bg-surface px-5 py-2.5 text-[12.5px] font-semibold text-ink transition-colors hover:border-primary/40 hover:bg-accent-soft focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none reveal-stagger"
               >
                 View all templates
                 <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </div>
 
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 reveal-stagger">
               {featuredTemplates.map((template) => (
                 <Link
                   key={template.id}
@@ -439,6 +446,10 @@ export default function Home() {
                     <div className="overflow-hidden rounded-[12px] border border-black/10 bg-white shadow-sm">
                       <TemplatePreview template={template.id} />
                     </div>
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-b from-transparent via-white/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    />
                   </div>
                   <div className="flex flex-1 flex-col p-5">
                     <p className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-accent">
@@ -469,49 +480,62 @@ export default function Home() {
         >
           <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:gap-20 lg:px-8 lg:py-32">
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <p className="text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
+              <p className="reveal-stagger text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
                 Product principles
               </p>
               <h2
                 id="features-heading"
-                className="mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[44px]"
+                className="reveal-stagger mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[44px]"
               >
                 Software for people who actually read the job ad.
               </h2>
-              <p className="mt-5 max-w-[42ch] text-[13.5px] leading-7 text-muted">
+              <p className="reveal-stagger mt-5 max-w-[42ch] text-[13.5px] leading-7 text-muted">
                 Deterministic rules, honest comparisons, and layouts that
                 machines can parse — without inventing a single thing.
               </p>
               <Link
                 href="/resumes/new"
-                className="group mt-7 inline-flex items-center gap-2 text-[12.5px] font-semibold text-primary"
+                className="group mt-7 inline-flex items-center gap-2 text-[12.5px] font-semibold text-primary reveal-stagger"
               >
                 See the workflow
                 <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </div>
 
-            <div className="grid gap-x-10 gap-y-9 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 reveal-stagger">
               {features.map((feature) => {
                 const Icon = feature.icon;
 
                 return (
-                  <div
+                  <Link
                     key={feature.title}
-                    className="group border-t border-line pt-5"
+                    href={feature.href}
+                    className="group relative flex flex-col overflow-hidden rounded-[24px] border border-line bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_30px_60px_-40px_rgba(27,33,29,0.55)] focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
                   >
-                    <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-r from-accent/0 via-accent/10 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    />
+                    <div className="flex items-center gap-3 mb-4">
                       <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-accent-soft/60 text-accent-strong transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
                         <Icon className="h-4 w-4" />
                       </span>
-                      <h3 className="text-[13.5px] font-semibold tracking-[-0.01em] text-ink">
+                      <h3 className="text-[14px] font-semibold tracking-[-0.01em] text-ink leading-snug">
                         {feature.title}
                       </h3>
                     </div>
-                    <p className="mt-3 text-[12.5px] leading-6 text-muted">
+                    <p className="flex-1 mt-0 text-[12.5px] leading-6 text-muted">
                       {feature.body}
                     </p>
-                  </div>
+                    <span className="mt-6 inline-flex items-center gap-2 text-[12px] font-semibold text-primary">
+                      {feature.label}
+                      <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                    </span>
+                  </Link>
                 );
               })}
             </div>
@@ -528,23 +552,23 @@ export default function Home() {
             <div className="overflow-hidden rounded-[32px] bg-primary text-primary-foreground">
               <div className="grid gap-12 p-8 sm:p-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:p-16">
                 <div>
-                  <p className="flex items-center gap-2.5 text-[10.5px] font-semibold uppercase tracking-[0.24em] opacity-70">
+                  <p className="flex items-center gap-2.5 text-[10.5px] font-semibold uppercase tracking-[0.24em] opacity-70 reveal-stagger">
                     <ShieldIcon className="h-4 w-4" />
                     Privacy, by architecture
                   </p>
                   <h2
                     id="privacy-heading"
-                    className="mt-5 max-w-[18ch] font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] sm:text-4xl lg:text-[46px]"
+                    className="reveal-stagger mt-5 max-w-[18ch] font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] sm:text-4xl lg:text-[46px]"
                   >
                     Your resume never leaves this browser.
                   </h2>
-                  <p className="mt-5 max-w-[42ch] text-[13.5px] leading-7 opacity-75">
+                  <p className="reveal-stagger mt-5 max-w-[42ch] text-[13.5px] leading-7 opacity-75">
                     Not a policy promise — a property of how the app is built.
                     There is no resume server to send anything to.
                   </p>
                 </div>
 
-                <ul className="divide-y divide-primary-foreground/15 border-y border-primary-foreground/15">
+                <ul className="divide-y divide-primary-foreground/15 border-y border-primary-foreground/15 reveal-stagger">
                   {privacyPoints.map((point, index) => (
                     <li
                       key={point.title}
@@ -576,24 +600,24 @@ export default function Home() {
         >
           <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-12 lg:gap-16 lg:px-8 lg:py-32">
             <div className="lg:col-span-5">
-              <p className="flex items-center gap-3 text-[10.5px] font-semibold uppercase tracking-[0.24em] text-[#9dab9f]">
+              <p className="flex items-center gap-3 text-[10.5px] font-semibold uppercase tracking-[0.24em] text-[#9dab9f] reveal-stagger">
                 <span aria-hidden="true" className="h-px w-8 bg-[#d98a6b]" />
                 The boring truth
               </p>
               <h2
                 id="ats-heading"
-                className="mt-5 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-white sm:text-4xl lg:text-[46px]"
+                className="reveal-stagger mt-5 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-white sm:text-4xl lg:text-[46px]"
               >
                 What &ldquo;ATS-friendly&rdquo; actually means.
               </h2>
-              <p className="mt-5 max-w-[40ch] text-[13.5px] leading-7 text-[#9dab9f]">
+              <p className="reveal-stagger mt-5 max-w-[40ch] text-[13.5px] leading-7 text-[#9dab9f]">
                 Applicant tracking systems don&rsquo;t admire design. They parse.
                 Every layout in HonestCV keeps the machine-readable layers boring
                 — so the human layer can be anything you want.
               </p>
             </div>
             <div className="lg:col-span-7">
-              <ul className="divide-y divide-white/10 border-y border-white/10">
+              <ul className="divide-y divide-white/10 border-y border-white/10 reveal-stagger">
                 {atsPoints.map((point) => (
                   <li key={point} className="flex items-start gap-4 py-4">
                     <CheckIcon className="mt-0.5 h-4.5 w-4.5 shrink-0 text-[#d98a6b]" />
@@ -625,20 +649,21 @@ export default function Home() {
               </p>
               <h2
                 id="faq-heading"
-                className="mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[46px]"
+                className="reveal-stagger mt-3 font-heading text-3xl font-semibold leading-[1.02] tracking-[-0.03em] text-ink sm:text-4xl lg:text-[46px]"
               >
                 Fair questions.
               </h2>
-              <p className="mt-5 max-w-[30ch] text-[13px] leading-6 text-muted">
+              <p className="reveal-stagger mt-5 max-w-[30ch] text-[13px] leading-6 text-muted">
                 The short version: your words, your browser, your call.
               </p>
             </div>
             <div className="lg:col-span-8">
-              {faqs.map((item) => (
-                <details
-                  key={item.question}
-                  className="group border-t border-line last:border-b"
-                >
+              <div className="reveal-stagger">
+                {faqs.map((item) => (
+                  <details
+                    key={item.question}
+                    className="group border-t border-line last:border-b"
+                  >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
                     <span className="text-[14.5px] font-semibold tracking-[-0.01em] text-ink">
                       {item.question}
@@ -667,6 +692,7 @@ export default function Home() {
                   </p>
                 </details>
               ))}
+              </div>
             </div>
           </div>
         </section>
@@ -675,23 +701,23 @@ export default function Home() {
         <section aria-labelledby="cta-heading" className="relative overflow-hidden border-b border-line">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(181,86,58,0.12),transparent_62%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(181,86,58,0.12),transparent_62%)] animate-pulse-soft"
           />
           <div className="relative mx-auto w-full max-w-7xl px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8 lg:py-32">
-            <p className="text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
+            <p className="reveal-stagger text-[10.5px] font-semibold uppercase tracking-[0.24em] text-accent">
               Ready when you are
             </p>
             <h2
               id="cta-heading"
-              className="mx-auto mt-5 max-w-[24ch] font-heading text-4xl font-semibold leading-[0.98] tracking-[-0.035em] text-ink sm:text-5xl lg:text-[72px]"
+              className="reveal-stagger mx-auto mt-5 max-w-[24ch] font-heading text-4xl font-semibold leading-[0.98] tracking-[-0.035em] text-ink sm:text-5xl lg:text-[72px]"
             >
               The job description is already written.
             </h2>
-            <p className="mx-auto mt-6 max-w-[42ch] text-[14px] leading-7 text-muted sm:text-[15px]">
+            <p className="reveal-stagger mx-auto mt-6 max-w-[42ch] text-[14px] leading-7 text-muted sm:text-[15px]">
               Your resume can be ready before you finish your coffee. Start with
               what you already have.
             </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="reveal-stagger mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/resumes/new"
                 className="group inline-flex h-13 items-center justify-center gap-2.5 rounded-full bg-primary px-8 text-[13.5px] font-medium text-primary-foreground transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
