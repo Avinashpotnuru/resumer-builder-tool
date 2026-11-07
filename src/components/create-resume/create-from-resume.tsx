@@ -1,17 +1,20 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { ResumeUpload } from "@/components/create-resume/resume-upload";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import {
   createDefaultSectionOrder,
+  isCustomTemplateId,
   RESUME_TEMPLATE_LABELS,
   RESUME_TEMPLATES,
+  type AnyTemplateId,
   type EditorResumeData,
-  type ResumeTemplateId,
 } from "@/lib/resume/editor-store";
+import { useCustomTemplates } from "@/lib/resume/use-custom-templates";
 import {
   findIdenticalOriginal,
   saveTailoredResume,
@@ -24,11 +27,12 @@ const selectClassName =
 export function CreateFromResume({
   initialTemplate = "professional-classic",
 }: {
-  initialTemplate?: ResumeTemplateId;
+  initialTemplate?: AnyTemplateId;
 }) {
   const router = useRouter();
   const [resumeText, setResumeText] = useState<string | null>(null);
-  const [template, setTemplate] = useState<ResumeTemplateId>(initialTemplate);
+  const [template, setTemplate] = useState<AnyTemplateId>(initialTemplate);
+  const customTemplates = useCustomTemplates();
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setCreating] = useState(false);
 
@@ -143,8 +147,8 @@ export function CreateFromResume({
         stepLabel="Step 1 of 2"
       />
 
-      <div className="grid gap-5 rounded-[26px] border border-line bg-card p-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-        <div>
+      <div className="grid gap-5 rounded-[26px] border border-line bg-card p-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6">
+        <div className="space-y-2">
           <label
             htmlFor="starter-template"
             className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-muted"
@@ -155,18 +159,39 @@ export function CreateFromResume({
             id="starter-template"
             value={template}
             onChange={(event) =>
-              setTemplate(event.target.value as ResumeTemplateId)
+              setTemplate(event.target.value as AnyTemplateId)
             }
-            className={`mt-1.5 ${selectClassName}`}
+            className={`mt-0 max-w-[22rem] ${selectClassName}`}
           >
             {RESUME_TEMPLATES.map((templateId) => (
               <option key={templateId} value={templateId}>
                 {RESUME_TEMPLATE_LABELS[templateId]}
               </option>
             ))}
+            {customTemplates.length > 0 ? (
+              <optgroup label="My custom templates">
+                {customTemplates.map((custom) => (
+                  <option key={custom.id} value={custom.id}>
+                    {custom.name}
+                  </option>
+                ))}
+              </optgroup>
+            ) : null}
           </select>
-          <p className="mt-1.5 text-[11px] leading-5 text-muted">
-            You can switch templates any time — your information stays put.
+          <p className="mt-0 text-[11px] leading-5 text-muted">
+            You can switch templates any time — your information stays put.{" "}
+            <Link
+              href={
+                isCustomTemplateId(template)
+                  ? `/templates/custom?edit=${encodeURIComponent(template)}`
+                  : `/templates/custom?base=${encodeURIComponent(template)}`
+              }
+              className="font-medium text-accent-strong underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
+            >
+              {isCustomTemplateId(template)
+                ? "Edit this custom template"
+                : "Customize this design"}
+            </Link>
           </p>
         </div>
 
@@ -174,7 +199,7 @@ export function CreateFromResume({
           type="button"
           onClick={handleCreate}
           disabled={!canCreate}
-          className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-surface transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
+          className="group inline-flex w-full sm:w-auto h-12 items-center justify-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-surface transition-colors hover:bg-accent-strong focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none disabled:pointer-events-none disabled:bg-line/50 disabled:text-ink/40 disabled:hover:bg-line/50 disabled:shadow-none"
         >
           {isCreating ? "Creating…" : "Create my resume"}
           <ArrowRightIcon className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />

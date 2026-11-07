@@ -1,3 +1,5 @@
+export const CUSTOM_TEMPLATE_PREFIX = "custom-";
+
 export const RESUME_TEMPLATES = [
   "professional-classic",
   "modern-ats",
@@ -12,6 +14,18 @@ export const RESUME_TEMPLATES = [
 export type ResumeTemplateId = (typeof RESUME_TEMPLATES)[number];
 
 export const DEFAULT_RESUME_TEMPLATE: ResumeTemplateId = "professional-classic";
+
+export type CustomTemplateId = `${typeof CUSTOM_TEMPLATE_PREFIX}${string}`;
+
+export type AnyTemplateId = ResumeTemplateId | CustomTemplateId;
+
+export function isCustomTemplateId(value: unknown): value is CustomTemplateId {
+  return typeof value === "string" && value.startsWith(CUSTOM_TEMPLATE_PREFIX);
+}
+
+export function isAnyTemplateId(value: unknown): value is AnyTemplateId {
+  return isResumeTemplateId(value) || isCustomTemplateId(value);
+}
 
 export const RESUME_TEMPLATE_LABELS: Record<ResumeTemplateId, string> = {
   "professional-classic": "Professional Classic",
@@ -133,8 +147,11 @@ const LEGACY_TEMPLATE_IDS: Record<string, ResumeTemplateId> = {
   modern: "modern-ats",
 };
 
-export function normalizeTemplateId(value: unknown): ResumeTemplateId {
+export function normalizeTemplateId(value: unknown): ResumeTemplateId | CustomTemplateId {
   if (typeof value === "string") {
+    if (isCustomTemplateId(value)) {
+      return value;
+    }
     if ((RESUME_TEMPLATES as readonly string[]).includes(value)) {
       return value as ResumeTemplateId;
     }

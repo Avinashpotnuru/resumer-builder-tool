@@ -18,7 +18,8 @@ import { ActionLink } from "@/components/ui/action-link";
 import { FilesIcon, TrashIcon } from "@/components/ui/icons";
 import {
   RESUME_TEMPLATE_LABELS,
-  type ResumeTemplateId,
+  type AnyTemplateId,
+  isCustomTemplateId,
 } from "@/lib/resume/editor-store";
 import {
   deleteTailoredResume,
@@ -38,10 +39,10 @@ type SaveStatus = "idle" | "saved" | "error";
 const fieldClassName =
   "h-11 w-full rounded-[22px] border border-line bg-accent-soft/40 px-3.5 text-sm text-ink transition-colors placeholder:text-muted/60 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-ring/20 focus:outline-none";
 
-function TemplateBadge({ template }: { template: ResumeTemplateId }) {
+function TemplateBadge({ template }: { template: AnyTemplateId }) {
   return (
     <span className="rounded-full border border-line bg-background px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-primary">
-      {RESUME_TEMPLATE_LABELS[template]}
+      {isCustomTemplateId(template) ? "Custom Template" : RESUME_TEMPLATE_LABELS[template]}
     </span>
   );
 }

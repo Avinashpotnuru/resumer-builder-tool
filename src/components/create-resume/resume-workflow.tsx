@@ -22,14 +22,14 @@ import {
   findIdenticalOriginal,
   saveTailoredResume,
 } from "@/lib/resume/persistence";
-import type { ResumeTemplateId } from "@/lib/resume/editor-store";
+import type { AnyTemplateId } from "@/lib/resume/editor-store";
 
 const steps = ["Upload Resume", "Job Description", "Analyze"];
 
 export function ResumeWorkflow({
   initialTemplate = "professional-classic",
 }: {
-  initialTemplate?: ResumeTemplateId;
+  initialTemplate?: AnyTemplateId;
 }) {
   const router = useRouter();
   const [resumeText, setResumeText] = useState("");

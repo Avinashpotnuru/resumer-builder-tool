@@ -1,11 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   ArrowRightIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   CloseIcon,
+  PenIcon,
   TrashIcon,
 } from "@/components/ui/icons";
 import {
@@ -13,16 +15,18 @@ import {
   RESUME_SECTION_ORDER,
   RESUME_TEMPLATES,
   RESUME_TEMPLATE_LABELS,
+  isCustomTemplateId,
   useResumeEditorStore,
 } from "@/lib/resume/editor-store";
 import type {
+  AnyTemplateId,
   EditorResumeData,
   EducationItem,
   ExperienceItem,
   ProjectItem,
   ResumeSectionId,
-  ResumeTemplateId,
 } from "@/lib/resume/editor-store";
+import { useCustomTemplates } from "@/lib/resume/use-custom-templates";
 import {
   OriginalResumeData,
   OptimizedResumeData,
@@ -110,14 +114,14 @@ export type ResumeEditorSaveData = {
   comparison: ReturnType<typeof compareOriginalVsOptimized>;
   workingResume: EditorResumeData;
   sectionOrder: ResumeSectionId[];
-  template: ResumeTemplateId;
+  template: AnyTemplateId;
 };
 
 type SavedResumeSnapshot = {
   key: string;
   resume: EditorResumeData;
   sectionOrder: ResumeSectionId[];
-  template: ResumeTemplateId;
+  template: AnyTemplateId;
 };
 
 type ResumeEditorProps = {
@@ -196,6 +200,7 @@ export function ResumeEditor({
   }, [originalResume, optimizedResume, setResumes]);
 
   const working = workingResume;
+  const customTemplates = useCustomTemplates();
 
   const handleSave = useCallback(() => {
     if (!working || !onSave) return;
@@ -315,14 +320,14 @@ export function ResumeEditor({
               Refine every field — preview updates live
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <label className="text-[11px] font-medium text-muted sr-only">
               Template
             </label>
             <select
               value={template}
               onChange={(event) =>
-                setTemplate(event.target.value as ResumeTemplateId)
+                setTemplate(event.target.value as AnyTemplateId)
               }
               className="h-9 max-w-[11rem] rounded-[22px] border border-line bg-accent-soft/40 px-2.5 text-[11px] font-medium text-ink transition-colors focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none"
             >
@@ -331,7 +336,34 @@ export function ResumeEditor({
                   {RESUME_TEMPLATE_LABELS[templateId]}
                 </option>
               ))}
+              {customTemplates.length > 0 ? (
+                <optgroup label="My custom templates">
+                  {customTemplates.map((custom) => (
+                    <option key={custom.id} value={custom.id}>
+                      {custom.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ) : null}
+              {isCustomTemplateId(template) &&
+              !customTemplates.some((custom) => custom.id === template) ? (
+                <option value={template}>Custom template (unavailable)</option>
+              ) : null}
             </select>
+            <Link
+              href={
+                isCustomTemplateId(template)
+                  ? `/templates/custom?edit=${encodeURIComponent(template)}`
+                  : `/templates/custom?base=${encodeURIComponent(template)}`
+              }
+              title="Open the custom template designer"
+              className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-card px-3 text-[11px] font-medium text-ink transition-colors hover:border-primary/40 hover:bg-accent-soft/50 focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
+            >
+              <PenIcon className="h-3.5 w-3.5" />
+              {isCustomTemplateId(template)
+                ? "Edit template"
+                : "Customize template"}
+            </Link>
             <button
               type="button"
               onClick={handleSave}

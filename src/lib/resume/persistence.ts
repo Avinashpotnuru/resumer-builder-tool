@@ -1,13 +1,17 @@
 import {
   RESUME_SECTION_ORDER,
+  type AnyTemplateId,
   type EditorResumeData,
   type EducationItem,
   type ExperienceItem,
   type ProjectItem,
   type ResumeSectionId,
-  type ResumeTemplateId,
 } from "./editor-store";
-import { isResumeTemplateId, normalizeTemplateId } from "./template-catalog";
+import {
+  isCustomTemplateId,
+  isResumeTemplateId,
+  normalizeTemplateId,
+} from "./template-catalog";
 import type {
   OptimizedResumeData,
   OriginalResumeData,
@@ -38,7 +42,7 @@ export type TailoredResumeRecord = {
   updatedAt: string;
   targetJobTitle: string;
   companyName: string;
-  template: ResumeTemplateId;
+  template: AnyTemplateId;
   sectionOrder: ResumeSectionId[];
   resume: EditorResumeData;
 };
@@ -54,7 +58,7 @@ export type SaveTailoredResumeInput = {
   original: OriginalResumeData;
   targetJobTitle: string;
   companyName: string;
-  template: ResumeTemplateId;
+  template: AnyTemplateId;
   sectionOrder: ResumeSectionId[];
   resume: EditorResumeData;
 };
@@ -215,11 +219,15 @@ function isSectionOrder(value: unknown): value is ResumeSectionId[] {
   });
 }
 
-function isTemplateId(value: unknown): value is ResumeTemplateId {
+function isTemplateId(value: unknown): value is AnyTemplateId {
   if (isResumeTemplateId(value)) return true;
 
   // Older saved versions used the "classic" and "modern" ids.
-  return value === "classic" || value === "modern";
+  if (value === "classic" || value === "modern") return true;
+
+  // Custom template configs use the "custom-" prefix and are valid template
+  // references for a saved resume.
+  return isCustomTemplateId(value);
 }
 
 function isOriginalResumeRecord(value: unknown): value is OriginalResumeRecord {

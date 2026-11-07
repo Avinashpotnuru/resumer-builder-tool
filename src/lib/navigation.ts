@@ -1,4 +1,4 @@
-export type NavIcon = "dashboard" | "create" | "resumes";
+export type NavIcon = "dashboard" | "create" | "resumes" | "templates";
 
 export type NavItem = {
   href: string;
@@ -10,6 +10,7 @@ export const navigation: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: "dashboard" },
   { href: "/resumes/new", label: "Create Resume", icon: "create" },
   { href: "/resumes", label: "My Resumes", icon: "resumes" },
+  { href: "/templates", label: "Templates", icon: "templates" },
 ];
 
 export function isActivePath(pathname: string, href: string): boolean {

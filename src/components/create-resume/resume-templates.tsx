@@ -194,7 +194,7 @@ const specs: Record<ResumeTemplateId, TemplateSpec> = {
   },
 };
 
-function formatDateRange(startDate: string, endDate: string | null): string {
+export function formatDateRange(startDate: string, endDate: string | null): string {
   const start = startDate.trim();
   const end = endDate?.trim() ?? "";
 
@@ -202,7 +202,7 @@ function formatDateRange(startDate: string, endDate: string | null): string {
   return start || end;
 }
 
-function splitDescription(description: string): {
+export function splitDescription(description: string): {
   prose: string[];
   bullets: string[];
 } {
@@ -229,7 +229,7 @@ function splitDescription(description: string): {
   return { prose, bullets };
 }
 
-function contactItems(resume: EditorResumeData): string[] {
+export function contactItems(resume: EditorResumeData): string[] {
   const info = resume.personalInfo;
   if (!info) return [];
 
@@ -251,7 +251,7 @@ function contactItems(resume: EditorResumeData): string[] {
     .filter((value): value is string => Boolean(value));
 }
 
-function displayName(resume: EditorResumeData): string {
+export function displayName(resume: EditorResumeData): string {
   return (
     resume.personalInfo?.fullName?.trim() ||
     resume.jobTitle?.trim() ||
@@ -259,7 +259,7 @@ function displayName(resume: EditorResumeData): string {
   );
 }
 
-function displayRole(resume: EditorResumeData): string {
+export function displayRole(resume: EditorResumeData): string {
   return resume.personalInfo?.professionalTitle?.trim() ?? "";
 }
 
